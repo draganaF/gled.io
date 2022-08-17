@@ -29,6 +29,9 @@ func HandleRequests() {
 	router.Handle("/api/users/increment-reserved-tickets", controller.IncrementNumberOfReservedTickets).Methods("GET")
 	router.Handle("/api/users/increment-sold-tickets", controller.IncrementNumberOfSoldTickets).Methods("GET")
 
+	router.Handle("/api/users/buy-tickets", controller.BuyTicket).Methods("POST")
+	router.Handle("/api/users/update-ballans", controller.UpdateBallans).Methods("POST")
+
 	corsOpts := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"*"},

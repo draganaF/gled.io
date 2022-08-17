@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Movie struct {
 	gorm.Model
-	Id       uint
+	Id       uint `gorm:"primarykey"`
 	Name     string
 	Plot     string
 	Genre    Genre
@@ -15,7 +15,7 @@ type Movie struct {
 	Country  string
 	Language string
 
-	Actors   []string
+	Actors   string
 	Director string
 
 	Deleted bool

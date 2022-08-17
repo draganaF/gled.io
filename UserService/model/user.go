@@ -16,6 +16,7 @@ type User struct {
 	NumberOfSoldTickets     int
 	NumberOfReservedTickets int
 
+	Total          float32
 	NegativePoints int
 	Blocked        bool
 	Active         bool

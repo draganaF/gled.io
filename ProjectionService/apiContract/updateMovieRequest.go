@@ -14,7 +14,7 @@ type UpdateMovieRequest struct {
 	Country  string
 	Language string
 
-	Actors   []string
+	Actors   string
 	Director string
 }
 

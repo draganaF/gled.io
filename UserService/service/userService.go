@@ -196,6 +196,23 @@ func (userService *UserService) IncrementNumberOfSoldTickets(id uint) (*model.Us
 	return savedUser, nil
 }
 
+func (userService *UserService) AddMoney(userId uint, amount float32) (*model.User, error) {
+	user := userService.repository.ReadUserById(userId)
+
+	if user == nil {
+		return nil, errors.New("No user found with ID " + strconv.FormatUint(uint64(userId), 10))
+	}
+
+	user.Total += amount
+
+	savedUser := userService.repository.Update(user)
+	if savedUser == nil {
+		return nil, errors.New("something went wrong")
+	}
+
+	return savedUser, nil
+}
+
 func (userService *UserService) BlockUser(id uint) (*model.User, error) {
 	user := userService.repository.BlockUser(id)
 

@@ -24,7 +24,7 @@ var (
 			Director: "David Leitch",
 			Year:     2022,
 			Language: "English",
-			Actors:   []string{"Brad Pitt", "Joey King", "Logan Lerman", "Brian Tyree Henry", "Aaron Taylor-Johnson"},
+			Actors:   "Brad Pitt, Sandra Bullock",
 			Plot:     "Five assassins aboard a fast moving bullet train find out their missions have something in common.",
 			Country:  "US",
 			Deleted:  false,
@@ -36,10 +36,42 @@ var (
 			Director: "Kyle Balda",
 			Year:     2022,
 			Language: "English/Minion",
-			Actors:   []string{"Steve Carell", "Pierre Coffin", "Alan Arkin", "Taraji P. Henson", "Michelle Yeoh"},
+			Actors:   "Steve Carrel",
 			Plot:     "The untold story of one twelve-year-old's dream to become the world's greatest supervillain.",
 			Country:  "US",
 			Deleted:  false,
+		},
+	}
+)
+
+var (
+	cinemaHalls = []model.CinemaHall{
+		{
+			Id:   1,
+			Name: "Sala 1",
+			Rows: []model.Row{
+				{
+					Id:    1,
+					Mark:  "A",
+					Seats: 10,
+				},
+			},
+		},
+		{
+			Id:   2,
+			Name: "Sala 2",
+			Rows: []model.Row{
+				{
+					Id:    2,
+					Mark:  "A",
+					Seats: 12,
+				},
+				{
+					Id:    3,
+					Mark:  "B",
+					Seats: 15,
+				},
+			},
 		},
 	}
 )
@@ -56,6 +88,10 @@ func ConnectToDatabase() {
 	} else {
 		fmt.Println("Connection to DB successfull.")
 	}
+	DB.Migrator().DropTable("rows")
+	DB.AutoMigrate(&model.Row{})
+
+	DB.Migrator().DropTable("cinema_hall_rows")
 
 	DB.Migrator().DropTable("movies")
 	DB.AutoMigrate(&model.Movie{})
@@ -63,4 +99,15 @@ func ConnectToDatabase() {
 	for _, movie := range movies {
 		DB.Create(&movie)
 	}
+
+	DB.Migrator().DropTable("cinema_halls")
+	DB.AutoMigrate(&model.CinemaHall{})
+
+	for _, hall := range cinemaHalls {
+		DB.Create(&hall)
+	}
+
+	DB.Migrator().DropTable("projections")
+	DB.AutoMigrate(&model.Projection{})
+
 }

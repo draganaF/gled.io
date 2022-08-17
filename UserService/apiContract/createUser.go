@@ -24,6 +24,7 @@ func (createUser *CreateUser) ToUser() *model.User {
 		NumberOfReservedTickets: 0,
 		NegativePoints:          0,
 
+		Total:   0.0,
 		Blocked: false,
 		Deleted: false,
 		Active:  false,

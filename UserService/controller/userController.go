@@ -27,6 +27,7 @@ var Search = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	utils.JSONResponse(w, 200, users)
 })
@@ -42,6 +43,7 @@ var ReadUserById = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
+		retrun
 	}
 
 	utils.JSONResponse(w, 200, user)
@@ -58,6 +60,7 @@ var ReadUserByEmail = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reque
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
 	utils.JSONResponse(w, 200, user)
@@ -78,6 +81,7 @@ var CreateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		utils.JSONResponse(w, 400, "Bad request")
+		return
 	}
 
 	if createdUser.Role == model.RegisteredUser {
@@ -93,6 +97,7 @@ var UpdateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	userService := service.NewUserService()
@@ -101,6 +106,7 @@ var UpdateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedUser)
@@ -112,6 +118,7 @@ var ChangePassword = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reques
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	userService := service.NewUserService()
@@ -120,6 +127,7 @@ var ChangePassword = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reques
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedUser)
@@ -136,6 +144,7 @@ var IncrementNegativePoints = http.HandlerFunc(func(w http.ResponseWriter, r *ht
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedUser)
@@ -152,6 +161,7 @@ var IncrementNumberOfBougthTickets = http.HandlerFunc(func(w http.ResponseWriter
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedUser)
@@ -168,6 +178,7 @@ var IncrementNumberOfReservedTickets = http.HandlerFunc(func(w http.ResponseWrit
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedUser)
@@ -184,6 +195,49 @@ var IncrementNumberOfSoldTickets = http.HandlerFunc(func(w http.ResponseWriter, 
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	utils.JSONResponse(w, 200, updatedUser)
+})
+
+var BuyTicket = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	var request *apicontract.UpdateTotal
+	err := utils.ReadJSONBody(r, &request)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	userService := service.NewUserService()
+
+	updatedUser, err := userService.AddMoney(request.UserId, request.Money)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	utils.JSONResponse(w, 200, updatedUser)
+})
+
+var UpdateBallans = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	var request *apicontract.UpdateTotal
+	err := utils.ReadJSONBody(r, &request)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	userService := service.NewUserService()
+
+	updatedUser, err := userService.AddMoney(request.UserId, request.Money)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedUser)
@@ -200,6 +254,7 @@ var BlockUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	utils.JSONResponse(w, 200, blockedUser)
@@ -229,12 +284,14 @@ var ActivateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 
 	if err != nil {
 		utils.JSONResponse(w, 400, "Bad Reaquest")
+		return
 	}
 
 	user, err := userService.ActivateUser(link.UserId)
 
 	if err != nil {
 		utils.JSONResponse(w, 400, "Bad Reaquest")
+		return
 	}
 
 	utils.JSONResponse(w, 200, user)

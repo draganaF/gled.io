@@ -7,16 +7,16 @@ import (
 )
 
 type CreateProjectionRequest struct {
-	Movie      model.Movie
-	Slot       time.Time
-	CinemaHall model.CinemaHall
+	MovieId      uint
+	Slot         time.Time
+	CinemaHallId uint
 }
 
 func (createProjectionRequest *CreateProjectionRequest) ToProjection() *model.Projection {
 	return &model.Projection{
-		Movie:      createProjectionRequest.Movie,
-		Slot:       createProjectionRequest.Slot,
-		CinemaHall: createProjectionRequest.CinemaHall,
-		Deleted:    false,
+		Slot:         createProjectionRequest.Slot,
+		MovieId:      createProjectionRequest.MovieId,
+		CinemaHallId: createProjectionRequest.CinemaHallId,
+		Deleted:      false,
 	}
 }

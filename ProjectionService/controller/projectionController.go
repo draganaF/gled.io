@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -26,6 +27,7 @@ var SearchProjections = http.HandlerFunc(func(w http.ResponseWriter, r *http.Req
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	utils.JSONResponse(w, 200, projections)
 })
@@ -38,6 +40,7 @@ var ReadAllProjections = http.HandlerFunc(func(w http.ResponseWriter, r *http.Re
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
 	utils.JSONResponse(w, 200, projections)
@@ -54,6 +57,7 @@ var ReadProjectionById = http.HandlerFunc(func(w http.ResponseWriter, r *http.Re
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
 	utils.JSONResponse(w, 200, projection)
@@ -70,6 +74,7 @@ var ReadProjectionByMovieId = http.HandlerFunc(func(w http.ResponseWriter, r *ht
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
 	utils.JSONResponse(w, 200, projections)
@@ -82,6 +87,7 @@ var CreateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		return
 	}
+	fmt.Println("Projekcija kontroller")
 
 	projectionService := service.NewProjectionService()
 
@@ -89,6 +95,7 @@ var CreateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Requ
 
 	if err != nil {
 		utils.JSONResponse(w, 400, "Bad request")
+		return
 	}
 
 	utils.JSONResponse(w, 200, createdProjection)
@@ -108,6 +115,7 @@ var UpdateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Requ
 
 	if err != nil {
 		utils.JSONResponse(w, 400, "Bad request")
+		return
 	}
 
 	utils.JSONResponse(w, 200, updatedProjection)

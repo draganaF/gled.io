@@ -2,7 +2,9 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
+	"time"
 
 	apicontract "github.com/draganaF/gled.io/ProjectionService/apiContract"
 	"github.com/draganaF/gled.io/ProjectionService/model"
@@ -48,7 +50,7 @@ func (projectionService *ProjectionService) ReadProjectionById(id uint) (*model.
 	projection := projectionService.repository.ReadProjectionById(id)
 
 	if projection == nil {
-		return nil, errors.New("There is no user with ID " + strconv.FormatUint(uint64(id), 10))
+		return nil, errors.New("There is no projection with ID " + strconv.FormatUint(uint64(id), 10))
 	}
 
 	return projection, nil
@@ -67,6 +69,30 @@ func (projectionService *ProjectionService) ReadProjectionsByMovieId(id uint) (*
 
 func (projectionService *ProjectionService) Create(projectionDto apicontract.CreateProjectionRequest) (*model.Projection, error) {
 	projection := projectionDto.ToProjection()
+
+	fmt.Println("Service projektijce")
+	movieService := NewMovieService()
+	movie := movieService.repository.ReadMovieById(projection.MovieId)
+	projection.Movie = *movie
+
+	cinemaHallService := NewCinemaHallService()
+	cinemaHall := cinemaHallService.repository.ReadCinemaHallById(projection.CinemaHallId)
+	projection.CinemaHall = *cinemaHall
+
+	projections := projectionService.repository.ReadAll()
+
+	if projections != nil {
+		for _, value := range *projections {
+			endDate1 := projection.Slot.Add(time.Minute * time.Duration(projection.Movie.Duration))
+			endDate2 := value.Slot.Add(time.Minute * time.Duration(value.Movie.Duration))
+
+			if projection.CinemaHallId == value.CinemaHallId {
+				if projectionService.AreTwoDateRangeOverlapping(projection.Slot, endDate1, value.Slot, endDate2) {
+					return nil, errors.New("time slot in that hall is not available")
+				}
+			}
+		}
+	}
 
 	projection = projectionService.repository.Create(projection)
 
@@ -99,4 +125,31 @@ func (projectionService *ProjectionService) Update(projectionDto apicontract.Upd
 
 func (projectionService *ProjectionService) Delete(id uint) {
 	projectionService.repository.Delete(id)
+}
+
+func (projectionService *ProjectionService) AreTwoDateRangeOverlapping(startDate1 time.Time, endDate1 time.Time, startDate2 time.Time, endDate2 time.Time) bool {
+	if AfterOrEquals(startDate1, startDate2) && BeforeOrEquals(endDate1, endDate2) {
+		return true
+	}
+
+	if BeforeOrEquals(startDate1, startDate2) && AfterOrEquals(endDate1, endDate2) {
+		return true
+	}
+
+	if AfterOrEquals(startDate1, startDate2) && AfterOrEquals(endDate1, endDate2) && BeforeOrEquals(startDate1, endDate2) {
+		return true
+	}
+	if AfterOrEquals(startDate2, startDate1) && AfterOrEquals(endDate2, endDate1) && BeforeOrEquals(startDate2, endDate1) {
+		return true
+	}
+
+	return false
+}
+
+func AfterOrEquals(t1 time.Time, t2 time.Time) bool {
+	return t1.After(t2) || t1.Equal(t2)
+}
+
+func BeforeOrEquals(t1 time.Time, t2 time.Time) bool {
+	return t1.Before(t2) || t1.Equal(t2)
 }

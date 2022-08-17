@@ -30,6 +30,10 @@ func (projectionRepository *ProjectionRepository) Search(params *apicontract.Sea
 		query.Where("LOWER(projections.director) like ?", "%"+strings.ToLower(params.Director)+"%")
 	}
 
+	if params.Actor != "" {
+		query.Where("LOWER(projections.actors) like ?", "%"+strings.ToLower(params.Actor)+"%")
+	}
+
 	if params.Country != "" {
 		query.Where("LOWER(projections.country) like ?", "%"+strings.ToLower(params.Country)+"%")
 	}

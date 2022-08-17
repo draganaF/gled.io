@@ -8,6 +8,7 @@ import (
 
 type Projection struct {
 	gorm.Model
+	Id         uint `gorm:"primarykey"`
 	Movie      Movie
 	Slot       time.Time
 	CinemaHall CinemaHall
