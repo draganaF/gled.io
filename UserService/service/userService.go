@@ -204,6 +204,9 @@ func (userService *UserService) AddMoney(userId uint, amount float32) (*model.Us
 	}
 
 	user.Total += amount
+	if user.Total <= 0 {
+		return nil, errors.New("there is not enough amount of money in account")
+	}
 
 	savedUser := userService.repository.Update(user)
 	if savedUser == nil {

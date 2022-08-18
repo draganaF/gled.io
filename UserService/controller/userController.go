@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -169,6 +170,7 @@ var IncrementNumberOfBougthTickets = http.HandlerFunc(func(w http.ResponseWriter
 
 var IncrementNumberOfReservedTickets = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Println("UPALO U KONTROLER U USERU")
 	params := mux.Vars(r)
 	id, _ := strconv.Atoi(params["id"])
 
@@ -215,7 +217,7 @@ var BuyTicket = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	updatedUser, err := userService.AddMoney(request.UserId, request.Money)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		utils.JSONResponse(w, 400, "There has been a problem")
 		return
 	}
 
