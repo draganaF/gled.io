@@ -16,13 +16,14 @@ var err error
 var (
 	users = []model.User{
 		{
-			Email: "admin@gmail.com", Password: "123", Name: "Admin", LastName: "Adminovic", Role: model.Administrator, Deleted: false, Blocked: false, Active: true, NumberOfBoughtTickets: 0, NumberOfSoldTickets: 0, NumberOfReservedTickets: 0, NegativePoints: 0,
+			Email: "admin@gmail.com", Password: "123", Name: "Admin", LastName: "Adminovic", Role: model.Administrator, Deleted: false, Total: 0.0, Blocked: false, Active: true, NumberOfBoughtTickets: 0, NumberOfSoldTickets: 0, NumberOfReservedTickets: 0, NegativePoints: 0,
 		},
 		{
-			Email: "radnik@email.com", Password: "123", Name: "Radnik", LastName: "Radnikovic", Role: model.Worker, Deleted: false, Blocked: false, Active: true, NumberOfBoughtTickets: 0, NumberOfSoldTickets: 1, NumberOfReservedTickets: 0, NegativePoints: 0,
+			Email: "radnik@email.com", Password: "123", Name: "Radnik", LastName: "Radnikovic", Role: model.Worker, Deleted: false, Total: 0.0, Blocked: false, Active: true, NumberOfBoughtTickets: 0, NumberOfSoldTickets: 1, NumberOfReservedTickets: 0, NegativePoints: 0,
 		},
 		{
-			Email: "kupac@email.com", Password: "123", Name: "Kupac", LastName: "Kupacovic", Role: model.RegisteredUser, Deleted: false, Blocked: false, Active: true, NumberOfBoughtTickets: 1, NumberOfSoldTickets: 0, NumberOfReservedTickets: 0, NegativePoints: 0,
+			Email: "kupac@email.com", Password: "123", Name: "Kupac", LastName: "Kupacovic", Role: model.RegisteredUser, Deleted: false,
+			Total: 0.0, Blocked: false, Active: true, NumberOfBoughtTickets: 1, NumberOfSoldTickets: 0, NumberOfReservedTickets: 0, NegativePoints: 0,
 		},
 	}
 )

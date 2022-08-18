@@ -43,7 +43,7 @@ var ReadUserById = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
-		retrun
+		return
 	}
 
 	utils.JSONResponse(w, 200, user)
