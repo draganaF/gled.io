@@ -25,6 +25,9 @@ var (
 			Email: "kupac@email.com", Password: "123", Name: "Kupac", LastName: "Kupacovic", Role: model.RegisteredUser, Deleted: false,
 			Total: 0.0, Blocked: false, Active: true, NumberOfBoughtTickets: 1, NumberOfSoldTickets: 0, NumberOfReservedTickets: 0, NegativePoints: 0,
 		},
+		{
+			Email: "kupa1@gmail.com", Password: "123", Name: "Dada", LastName: "Filipovic", Role: model.RegisteredUser, Deleted: false, Total: 1000.0, Blocked: false, Active: true, NumberOfBoughtTickets: 10, NumberOfSoldTickets: 0, NumberOfReservedTickets: 3, NegativePoints: 1,
+		},
 	}
 )
 

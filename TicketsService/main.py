@@ -27,7 +27,7 @@ def get_all_tickets(db: Session = Depends(get_db)):
 
 @app.post("/api/tickets",response_model=schema.Ticket, status_code=201)
 def create_ticket(ticket: schema.CreateTicket, db: Session = Depends(get_db)):
-  db_ticket = repo.get_tickets_by_seat(db, seat=ticket.seat)
+  db_ticket = repo.get_tickets_by_seat(db, seat=ticket.seat, projection_id=ticket.projection_id)
   if db_ticket:
     raise HTTPException(status_code=400, detail="Seat is taken")
 
@@ -40,7 +40,7 @@ def create_ticket(ticket: schema.CreateTicket, db: Session = Depends(get_db)):
       raise HTTPException(status_code=400, detail="Not enough resources on your ballans")
 
   saved_ticket = repo.create_ticket(db=db, ticket=ticket)
-  
+
   return saved_ticket
 
 @app.get("/api/tickets/users/{user_id}", response_model=list[schema.Ticket], status_code=200)
@@ -64,9 +64,9 @@ def buy_ticket(id, db:Session = Depends(get_db)):
 def delete_unbougth_tickets(projection_id, db: Session = Depends(get_db)):
   tickets = repo.find_reserved_tickets_users(db=db, projection_id=projection_id)
 
-  users_id = {}
+  users_id = set()
   for ticket in tickets:
-    users_id.add(ticket["user_id"])
+    users_id.add(ticket.user_id)
 
   for user_id in users_id:
     status_code = remote_calls.increment_users_negative_points(user_id=user_id)

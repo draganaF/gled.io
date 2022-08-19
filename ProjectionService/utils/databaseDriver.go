@@ -41,6 +41,18 @@ var (
 			Country:  "US",
 			Deleted:  false,
 		},
+		{
+			Name:     "Thor: Love And Thunder",
+			Genre:    model.Action,
+			Duration: 118,
+			Director: "Taika Waititi",
+			Year:     2022,
+			Language: "English",
+			Actors:   "Chris Hamswort, Natalie Portman, Christian Bale",
+			Plot:     "Thor enlists the help of Valkyrie, Korg and ex-girlfriend Jane Foster to fight Gorr the God Butcher, who intends to make the gods extinct.",
+			Country:  "US",
+			Deleted:  false,
+		},
 	}
 )
 

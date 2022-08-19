@@ -15,8 +15,8 @@ def get_tickets_by_user_id(db: Session, user_id: int):
 def get_tickets_by_projection_id(db: Session, projection_id: int):
   return db.query(models.Ticket).filter(models.Ticket.projection_id == projection_id, models.Ticket.is_deleted == False).all()
 
-def get_tickets_by_seat(db: Session, seat: str):
-  return db.query(models.Ticket).filter(models.Ticket.seat == seat, models.Ticket.is_deleted == False).first()
+def get_tickets_by_seat(db: Session, seat: str, projection_id: int):
+  return db.query(models.Ticket).filter(models.Ticket.seat == seat, models.Ticket.is_deleted == False, models.Ticket.projection_id == projection_id).first()
 
 def get_reserved_but_not_bought_tickets(db: Session):
   return db.query(models.Ticket).filter(models.Ticket.is_bought == False, models.Ticket.is_reserved == True)
@@ -35,19 +35,19 @@ def find_reserved_tickets_users(db: Session, projection_id: int):
 
 def delete_unbought_reserved_tickets_for_projection(db: Session, projection_id: int):
   tickets = db.query(models.Ticket).filter(
-    models.Ticket.is_bought == False, models.Ticket.is_reserved == True, models.Ticket.projection_id == projection_id)
+    models.Ticket.is_bought == False, models.Ticket.is_reserved == True, models.Ticket.projection_id == projection_id).all()
 
   for ticket in tickets:
     ticket.is_deleted = True
     db.add(ticket)
-  db.commit()
+    db.commit()
 
 def buy_reserved_ticket(db: Session, id: int):
   ticket = get_ticket(db, id)
-  if not ticket.first():
+  if not ticket:
     return None
   
-  ticket.is_bougth = True
+  ticket.is_bought = True
   
   db.add(ticket)
   db.commit()
