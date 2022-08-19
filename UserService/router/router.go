@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/draganaF/gled.io/UserService/controller"
+	"github.com/draganaF/gled.io/UserService/model"
 	"github.com/gorilla/mux"
 )
 
@@ -12,23 +13,25 @@ func HandleRequests() {
 	router := mux.NewRouter()
 
 	router.Handle("/api/auth", controller.Auth).Methods("POST")
+	router.Handle("/api/authorize", controller.AuthorizeUser).Methods("GET")
+
 	router.Handle("/api/users/activate/{link}", controller.ActivateUser).Methods("GET")
 
 	router.Handle("/api/users/{id}", Authenticate(controller.ReadUserById)).Methods("GET")
-	router.Handle("/api/users/{email}", Authenticate(controller.ReadUserByEmail)).Methods("GET")
+	router.Handle("/api/users/{email}", Authenticate(Authorize(controller.ReadUserByEmail, model.Administrator, model.RegisteredUser, model.Worker))).Methods("GET")
 	router.Handle("/api/users", controller.CreateUser).Methods("POST")
 	router.Handle("/api/users/update", Authenticate(controller.UpdateUser)).Methods("PUT")
-	router.Handle("/api/users/block-user/{id}", Authenticate(controller.BlockUser)).Methods("GET")
-	router.Handle("/api/users/delete-user/{id}", Authenticate(controller.DeleteUser)).Methods("DELETE")
-	router.Handle("/api/users/search", Authenticate(controller.Search)).Methods("POST")
+	router.Handle("/api/users/block-user/{id}", Authenticate(Authorize(controller.BlockUser, model.Administrator))).Methods("GET")
+	router.Handle("/api/users/delete-user/{id}", Authenticate(Authorize(controller.DeleteUser, model.Administrator))).Methods("DELETE")
+	router.Handle("/api/users/search", Authenticate(Authorize(controller.Search, model.Administrator, model.Worker))).Methods("POST")
 
 	router.Handle("/api/users/increment-negative-points/{id}", controller.IncrementNegativePoints).Methods("GET")
-	router.Handle("/api/users/increment-bought-tickets/{id}", controller.IncrementNumberOfBougthTickets).Methods("GET")
-	router.Handle("/api/users/increment-reserved-tickets/{id}", controller.IncrementNumberOfReservedTickets).Methods("GET")
-	router.Handle("/api/users/increment-sold-tickets/{id}", controller.IncrementNumberOfSoldTickets).Methods("GET")
+	router.Handle("/api/users/increment-bought-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfBougthTickets, model.RegisteredUser, model.Worker))).Methods("GET")
+	router.Handle("/api/users/increment-reserved-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfReservedTickets, model.RegisteredUser))).Methods("GET")
+	router.Handle("/api/users/increment-sold-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfSoldTickets, model.Worker))).Methods("GET")
 
-	router.Handle("/api/users/buy-tickets", controller.BuyTicket).Methods("POST")
-	router.Handle("/api/users/update-ballans", controller.UpdateBallans).Methods("POST")
+	router.Handle("/api/users/buy-tickets", Authenticate(Authorize(controller.BuyTicket, model.RegisteredUser, model.Worker))).Methods("POST")
+	router.Handle("/api/users/update-ballans", Authenticate(Authorize(controller.UpdateBallans, model.Worker))).Methods("POST")
 
 	// corsOpts := cors.New(cors.Options{
 	// 	AllowedOrigins: []string{"*"},

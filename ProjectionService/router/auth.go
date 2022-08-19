@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/draganaF/gled.io/ProjectionService/service"
 	"github.com/draganaF/gled.io/ProjectionService/utils"
 )
 
-var Authenticate = func(next http.Handler) http.Handler {
+var Authenticate = func(next http.Handler, roles ...int) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		tokenString := r.Header.Get("Authorization")
@@ -17,7 +18,10 @@ var Authenticate = func(next http.Handler) http.Handler {
 		}
 
 		tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
-		_, err := utils.VerifyJwtToken(tokenString)
+
+		authService := service.NewAuthService()
+
+		_, err := authService.Authorize(tokenString, &roles)
 		if err != nil {
 			utils.JSONResponse(w, 401, "You are not authorized")
 			return
