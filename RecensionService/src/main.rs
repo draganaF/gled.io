@@ -52,6 +52,10 @@ fn main() {
             router::recensions_router::get_by_movie_id,
             router::recensions_router::create_recension
         ])
+        .mount("/api/reports", routes![
+            router::report_router::get_all_reports,
+            router::report_router::create_report
+        ])
         .launch();
 
         
