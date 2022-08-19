@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 
 	"github.com/draganaF/gled.io/UserService/repository"
@@ -31,7 +30,7 @@ func (authService *AuthService) Auth(email string, password string) (string, err
 	if user.Password != password {
 		return "", errors.New("Passwords do not match.")
 	}
-	fmt.Println("Rola u useru je " + strconv.Itoa(int(user.Role)))
+
 	claims := utils.Claims{
 		Name: strconv.FormatUint(uint64(user.Id), 10),
 		Role: strconv.Itoa(int(user.Role)),

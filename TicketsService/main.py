@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
 from sqlalchemy.orm import Session
 import schema, models, repo, remote_calls
 
@@ -15,18 +15,51 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/api/tickets/{id}", response_model=schema.Ticket, status_code=200)
-def get_ticket(id, db: Session = Depends(get_db)):
+@app.get("/api/tickets/{id}", status_code=200)
+def get_ticket(reques: Request, id, db: Session = Depends(get_db)):
+  token = reques.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   ticket = repo.get_ticket(db=db, ticket_id=id)
+  if ticket == None:
+    return {"status_code": 404, "message": "Not found"}
+
   return ticket
 
 @app.get("/api/tickets", response_model=list[schema.Ticket], status_code=200)
-def get_all_tickets(db: Session = Depends(get_db)):
+def get_all_tickets(request: Request, db: Session = Depends(get_db)):
+  token = request.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   tickets = repo.get_tickets(db)
+  if tickets == None:
+    raise HTTPException(status_code=404, detail="Ticket not found")
   return tickets
 
 @app.post("/api/tickets",response_model=schema.Ticket, status_code=201)
-def create_ticket(ticket: schema.CreateTicket, db: Session = Depends(get_db)):
+def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = Depends(get_db)):
+
+  token = request.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   db_ticket = repo.get_tickets_by_seat(db, seat=ticket.seat, projection_id=ticket.projection_id)
   if db_ticket:
     raise HTTPException(status_code=400, detail="Seat is taken")
@@ -44,24 +77,60 @@ def create_ticket(ticket: schema.CreateTicket, db: Session = Depends(get_db)):
   return saved_ticket
 
 @app.get("/api/tickets/users/{user_id}", response_model=list[schema.Ticket], status_code=200)
-def get_tickets_from_user(user_id, db: Session = Depends(get_db)):
+def get_tickets_from_user(request: Request, user_id, db: Session = Depends(get_db)):
+  token = request.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   tickets = repo.get_tickets_by_user_id(db=db, user_id=user_id)
   return tickets
 
 @app.get("/api/tickets/projections/{projection_id}", response_model=list[schema.Ticket], status_code=200)
-def get_tickets_for_projection(projection_id, db: Session = Depends(get_db)):
+def get_tickets_for_projection(request: Request, projection_id, db: Session = Depends(get_db)):
+  token = request.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   tickets = repo.get_tickets_by_projection_id(db=db, projection_id=projection_id)
   return tickets
 
 @app.get("/api/tickets/buy-reserved_ticket/{id}",response_model=schema.Ticket, status_code=200)
-def buy_ticket(id, db:Session = Depends(get_db)):
+def buy_ticket(request: Request, id, db:Session = Depends(get_db)):
+  token = request.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   ticket = repo.buy_reserved_ticket(db=db, id=id)
   remote_calls.increment_users_bougth_tickets(user_id=ticket.user_id)
 
   return ticket
 
 @app.get("/api/tickets/deleting-unbought-tickets/{projection_id}", status_code=200)
-def delete_unbougth_tickets(projection_id, db: Session = Depends(get_db)):
+def delete_unbougth_tickets(request: Request, projection_id, db: Session = Depends(get_db)):
+  token = request.headers.get("Authorization")
+  status_code = remote_calls.authorize(token, [0, 1, 2])
+  if status_code == 400:
+    raise HTTPException(status_code=400, detail="No header")
+  if status_code == 401:
+    raise HTTPException(status_code=401, detail="You are unauthorized")
+  if status_code == 403:
+    raise HTTPException(status_code=403, detail="You dont have permission")
+
   tickets = repo.find_reserved_tickets_users(db=db, projection_id=projection_id)
 
   users_id = set()
