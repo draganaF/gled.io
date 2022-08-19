@@ -2,6 +2,7 @@ package router
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -37,6 +38,7 @@ var Authorize = func(next http.Handler, roles ...model.Role) http.Handler {
 
 		tokenString := r.Header.Get("Authorization")
 
+		fmt.Println("JEBEM LI TI MAJKU")
 		claims, err := ReturnClaims(tokenString)
 
 		if err != nil && err.Error() == "No header found" {

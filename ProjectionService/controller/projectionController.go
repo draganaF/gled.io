@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -87,7 +86,6 @@ var CreateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		return
 	}
-	fmt.Println("Projekcija kontroller")
 
 	projectionService := service.NewProjectionService()
 

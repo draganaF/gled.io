@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -44,7 +43,7 @@ var ReadMovieById = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request
 
 var CreateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	var request *apicontract.CreateMovieRequest
-	fmt.Println("E JEBO JA SEBE")
+
 	err := utils.ReadJSONBody(r, &request)
 
 	if err != nil {
@@ -55,9 +54,6 @@ var CreateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 
 	createdMovie, err := movieService.Create(*request)
 
-	fmt.Println("U kontroleru sam")
-	fmt.Println(createdMovie)
-
 	if err != nil {
 		utils.JSONResponse(w, 400, "Bad request")
 		return
@@ -67,7 +63,7 @@ var CreateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 })
 
 var UpdateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("UPDATE")
+
 	var request *apicontract.UpdateMovieRequest
 	err := utils.ReadJSONBody(r, &request)
 
