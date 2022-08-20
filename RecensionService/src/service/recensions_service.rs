@@ -1,4 +1,4 @@
-use crate::{repository, model::recension::Recension, api_contracts::create_recension::CreateRecension};
+use crate::{repository, model::recension::Recension, api_contracts::{create_recension::CreateRecension, return_score::ReturnScore}};
 
 pub struct RecensionsService {
   repository: repository::recensions_repo::RecensionsRepo
@@ -31,6 +31,12 @@ impl RecensionsService {
     }
   }
  
+  pub fn get_score_by_movie_id(&mut self, movie_id: i32) -> Result<ReturnScore, String> {
+    match self.repository.get_score_by_movie_id(movie_id) {
+      Some(score) => Ok(ReturnScore{Score: score }),
+      None => Err(format!("No score for movie ID {}", movie_id))
+    }
+  }
   pub fn create_recension(&mut self, cr_recension: CreateRecension) -> Result<Recension, String> {
     match self.repository.create_recension(cr_recension) {
       Some(recension) => Ok(recension),

@@ -80,10 +80,12 @@ var ReadProjectionByMovieId = http.HandlerFunc(func(w http.ResponseWriter, r *ht
 })
 
 var CreateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
 	var request *apicontract.CreateProjectionRequest
 	err := utils.ReadJSONBody(r, &request)
 
 	if err != nil {
+		utils.JSONResponse(w, 400, "Bad request parsing")
 		return
 	}
 

@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"github.com/draganaF/gled.io/UserService/model"
 	"gorm.io/gorm"
 )
@@ -15,8 +13,7 @@ func (activationRepository *ActivationLinkRepository) ReadLinkByText(text string
 	link := &model.ActivationLink{}
 
 	result := activationRepository.DB.Where("link = ?", text).First(link)
-	fmt.Println("Halo breeee")
-	fmt.Println(result)
+
 	if result.RowsAffected == 0 || link.Activated {
 		return nil
 	}

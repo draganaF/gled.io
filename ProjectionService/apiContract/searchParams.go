@@ -14,4 +14,5 @@ type SearchParams struct {
 	Year           int
 	Language       string
 	Country        string
+	Score          int
 }

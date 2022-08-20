@@ -19,8 +19,6 @@ mod utils;
 mod router;
 
 fn main() {
-    println!("UBICU SE!");
-
     
     std::thread::spawn(|| {
         utils::database_driver::seed_db();
@@ -51,7 +49,8 @@ fn main() {
             router::recensions_router::get_by_id,
             router::recensions_router::get_by_movie_id,
             router::recensions_router::create_recension,
-            router::recensions_router::delete_recension
+            router::recensions_router::delete_recension,
+            router::recensions_router::get_score_by_movie_id
         ])
         .mount("/api/reports", routes![
             router::report_router::get_all_reports,

@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -169,8 +168,6 @@ var IncrementNumberOfBougthTickets = http.HandlerFunc(func(w http.ResponseWriter
 })
 
 var IncrementNumberOfReservedTickets = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-	fmt.Println("UPALO U KONTROLER U USERU")
 	params := mux.Vars(r)
 	id, _ := strconv.Atoi(params["id"])
 

@@ -19,36 +19,37 @@ func (projectionRepository *ProjectionRepository) Search(params *apicontract.Sea
 	query := projectionRepository.DB.Table("projections").Preload("Movie").Preload("CinemaHall")
 
 	if params.Genre != -1 {
-		query.Where("projections.genre = ?", params.Genre)
+		query.Where("projections.movie.genre = ?", params.Genre)
 	}
 
 	if params.Name != "" {
-		query.Where("LOWER(projections.name) like ?", "%"+strings.ToLower(params.Name)+"%")
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("LOWER(m.name) like ?", "%"+strings.ToLower(params.Name)+"%")
 	}
 
 	if params.Director != "" {
-		query.Where("LOWER(projections.director) like ?", "%"+strings.ToLower(params.Director)+"%")
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("LOWER(m.director) like ?", "%"+strings.ToLower(params.Director)+"%")
 	}
 
 	if params.Actor != "" {
-		query.Where("LOWER(projections.actors) like ?", "%"+strings.ToLower(params.Actor)+"%")
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("LOWER(m.actors) like ?", "%"+strings.ToLower(params.Actor)+"%")
 	}
 
 	if params.Country != "" {
-		query.Where("LOWER(projections.country) like ?", "%"+strings.ToLower(params.Country)+"%")
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("LOWER(m.country) like ?", "%"+strings.ToLower(params.Country)+"%")
 	}
 
 	if params.Language != "" {
-		query.Where("LOWER(projections.language) like ?", "%"+strings.ToLower(params.Language)+"%")
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("LOWER(m.language) like ?", "%"+strings.ToLower(params.Language)+"%")
 	}
 
 	if params.Duration > 0 {
-		query.Where("projections.duration = ?", params.Duration)
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("m.duration = ?", params.Duration)
 	}
 
 	if params.Year > 0 {
-		query.Where("projections.year = ?", params.Year)
+		query.Joins("JOIN movies m ON projections.movie_id = m.id").Where("m.year = ?", params.Year)
 	}
+
 	if !params.DateFrom.IsZero() {
 		query.Where("projections.slot >= ?", params.DateFrom)
 	}
@@ -58,7 +59,7 @@ func (projectionRepository *ProjectionRepository) Search(params *apicontract.Sea
 	}
 
 	if params.CinemaHallName != "" {
-		query.Where("LOWER(projections.cinema_hall.name) like ?", "%"+params.CinemaHallName+"%")
+		query.Joins("JOIN cinema_halls ch ON projections.cinema_hall_id = ch.id").Where("LOWER(ch.name) like ?", "%"+strings.ToLower(params.CinemaHallName)+"%")
 	}
 
 	query.Find(projections)

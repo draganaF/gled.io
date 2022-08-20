@@ -1,4 +1,6 @@
 
+use std::fmt;
+
 use postgres::{Client, NoTls};
 
 use crate::model::recension::Recension;
@@ -111,6 +113,23 @@ impl RecensionsRepo {
     Some(recensions)
   }
 
+  pub fn get_score_by_movie_id(&mut self, id: i32) -> Option<i32> {
+    let values = self.get_by_movie_id(id);
+    if values.is_none(){
+      return Some(0);
+    }
+
+    let recensions = values.unwrap();
+    let n: i32 = recensions.len() as i32;
+    let mut score: i32 = 0;
+    let mut sum: i32 = 0;
+    for recension in recensions {
+      sum += recension.score;
+    }
+
+    score = sum/n;
+    Some(score)
+  }
   pub fn create_recension(&mut self, recension: CreateRecension) -> Option<Recension> {
     
     let rows = self.client.query("SELECT id, userId, movieId, message, score, deleted FROM recensions WHERE userId = $1 AND movieId = $2", &[&recension.user_id, &recension.movie_id]);

@@ -55,8 +55,7 @@ pub fn get_by_id(token: Token, id :i32) -> content::Json<String> {
 #[get("/by-movie-id/<id>")]
 pub fn get_by_movie_id(token: Token, id :i32) -> content::Json<String> {
   let auth_s = AuthService::new();
-  println!("{}", &token.0.to_string());
-  println!("Sta se desava");
+  
   let user = match auth_s.authorize(&token.0.to_string(), &vec![0.to_string(), 1.to_string(), 2.to_string()]) {
     Ok(user) => user,
     Err(err) => return rocket::response::content::Json(err)
@@ -65,6 +64,13 @@ pub fn get_by_movie_id(token: Token, id :i32) -> content::Json<String> {
   let mut recension_s = recensions_service::RecensionsService::new();
 
   return content::Json(Json(json!(recension_s.get_by_movie_id(id))).to_string());
+}
+
+#[get("/score-by-movie-id/<id>")]
+pub fn get_score_by_movie_id(id :i32) -> content::Json<String> {
+  let mut recension_s = recensions_service::RecensionsService::new();
+
+  return content::Json(Json(json!(recension_s.get_score_by_movie_id(id))).to_string());
 }
 
 #[post("/create", data = "<recension>")]

@@ -23,7 +23,7 @@ func HandleRequests() {
 	router.Handle("/api/projections", Authenticate(controller.UpdateProjection, 1)).Methods("PUT")
 	router.Handle("/api/projections/{id}", Authenticate(controller.DeleteProjection, 1)).Methods("DELETE")
 
-	router.Handle("/api/projections/search", controller.SearchProjections).Methods("GET")
+	router.Handle("/api/projections/search", controller.SearchProjections).Methods("POST")
 
 	// corsOpts := cors.New(cors.Options{
 	// 	AllowedOrigins: []string{"*"},
