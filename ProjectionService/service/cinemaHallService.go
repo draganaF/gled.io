@@ -21,7 +21,7 @@ func NewCinemaHallService() *CinemaHallService {
 	}
 }
 
-func (cinemaHallService *CinemaHallService) ReadAll() (*[]model.CinemaHall, error) {
+func (cinemaHallService *CinemaHallService) ReadCinemaHallsAll() (*[]model.CinemaHall, error) {
 	halls := cinemaHallService.repository.ReadAll()
 
 	if halls == nil {

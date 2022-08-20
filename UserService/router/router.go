@@ -1,12 +1,13 @@
 package router
 
 import (
-	"log"
 	"net/http"
+	"os"
 
 	"github.com/draganaF/gled.io/UserService/controller"
 	"github.com/draganaF/gled.io/UserService/model"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func HandleRequests() {
@@ -33,18 +34,18 @@ func HandleRequests() {
 	router.Handle("/api/users/buy-tickets", Authenticate(Authorize(controller.BuyTicket, model.RegisteredUser, model.Worker))).Methods("POST")
 	router.Handle("/api/users/update-ballans", Authenticate(Authorize(controller.UpdateBallans, model.Worker))).Methods("POST")
 
-	// corsOpts := cors.New(cors.Options{
-	// 	AllowedOrigins: []string{"*"},
-	// 	AllowedHeaders: []string{"*"},
-	// 	AllowedMethods: []string{
-	// 		http.MethodGet,
-	// 		http.MethodPost,
-	// 		http.MethodPut,
-	// 		http.MethodPatch,
-	// 		http.MethodDelete,
-	// 		http.MethodOptions,
-	// 		http.MethodHead,
-	// 	},
-	// })
-	log.Fatal(http.ListenAndServe(":8083", router))
+	corsOpts := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"*"},
+		AllowedMethods: []string{
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+			http.MethodOptions,
+			http.MethodHead,
+		},
+	})
+	http.ListenAndServe(os.Getenv("PORT"), corsOpts.Handler(router))
 }

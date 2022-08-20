@@ -1,11 +1,12 @@
 package router
 
 import (
-	"log"
 	"net/http"
+	"os"
 
 	"github.com/draganaF/gled.io/ProjectionService/controller"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func HandleRequests() {
@@ -22,21 +23,23 @@ func HandleRequests() {
 	router.Handle("/api/projections", Authenticate(controller.CreateProjection, 1)).Methods("POST")
 	router.Handle("/api/projections", Authenticate(controller.UpdateProjection, 1)).Methods("PUT")
 	router.Handle("/api/projections/{id}", Authenticate(controller.DeleteProjection, 1)).Methods("DELETE")
-
 	router.Handle("/api/projections/search", controller.SearchProjections).Methods("POST")
 
-	// corsOpts := cors.New(cors.Options{
-	// 	AllowedOrigins: []string{"*"},
-	// 	AllowedHeaders: []string{"*"},
-	// 	AllowedMethods: []string{
-	// 		http.MethodGet,
-	// 		http.MethodPost,
-	// 		http.MethodPut,
-	// 		http.MethodPatch,
-	// 		http.MethodDelete,
-	// 		http.MethodOptions,
-	// 		http.MethodHead,
-	// 	},
-	// })
-	log.Fatal(http.ListenAndServe(":8082", router))
+	router.Handle("/api/cinema-halls", controller.GetAllCinemaHalls).Methods("GET")
+	router.Handle("/api/cinema-halls/{id}", controller.GetCinemaHallById).Methods("GET")
+
+	corsOpts := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"*"},
+		AllowedMethods: []string{
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+			http.MethodOptions,
+			http.MethodHead,
+		},
+	})
+	http.ListenAndServe(os.Getenv("PORT"), corsOpts.Handler(router))
 }

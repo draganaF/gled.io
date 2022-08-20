@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -21,6 +22,8 @@ var Auth = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 	authService := service.NewAuthService()
 
+	fmt.Println("Auth Controller")
+	fmt.Println(loginRequest)
 	jwtToken, err := authService.Auth(loginRequest.Email, loginRequest.Password)
 
 	if err != nil {
