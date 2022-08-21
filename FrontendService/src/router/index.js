@@ -21,7 +21,7 @@ const routes = [
   {
     path: '/projections',
     name: 'Projections',
-    component: () => import('@/features/projection/Projections.vue'),
+    component: () => import('@/features/projection/projections/Projections.vue'),
     meta: {
       layout: 'AppLayoutMain'
     }
@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/projections/add-new-projection',
     name: 'CreateProjection',
-    component: () => import('@/features/projection/ProjectionForm.vue'),
+    component: () => import('@/features/projection/createProjection/ProjectionForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }

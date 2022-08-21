@@ -85,7 +85,9 @@ var CreateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if createdUser.Role == model.RegisteredUser {
-		activationService.GenerateActivationLink(createdUser.Id)
+		activeLink, _ := activationService.GenerateActivationLink(createdUser.Id)
+		message := "Please activate you account by clicking link. Link: http://localhost:8080/users/activation?link=" + activeLink.Link
+		userService.SendEmail(message, "Activation Link", createdUser.Email)
 	}
 
 	utils.JSONResponse(w, 200, createdUser)

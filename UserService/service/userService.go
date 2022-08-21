@@ -1,7 +1,11 @@
 package service
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
+	"net/http"
+	"os"
 	"strconv"
 
 	apicontract "github.com/draganaF/gled.io/UserService/apiContract"
@@ -129,7 +133,7 @@ func (userService *UserService) IncrementNegativePoints(id uint) (*model.User, e
 	existingUser.NegativePoints += 1
 
 	if existingUser.NegativePoints == 3 {
-		existingUser.Blocked = true
+		userService.BlockUser(existingUser.Id)
 	}
 
 	user := userService.repository.Update(existingUser)
@@ -209,6 +213,9 @@ func (userService *UserService) AddMoney(userId uint, amount float32) (*model.Us
 	}
 
 	savedUser := userService.repository.Update(user)
+	message := "You have " + strconv.FormatFloat(float64(user.Total), 'E', -1, 32) + "USD on your account"
+
+	userService.SendEmail(message, "User ballance", user.Email)
 	if savedUser == nil {
 		return nil, errors.New("something went wrong")
 	}
@@ -222,7 +229,7 @@ func (userService *UserService) BlockUser(id uint) (*model.User, error) {
 	if user == nil {
 		return nil, errors.New("something went wrong")
 	}
-
+	userService.SendEmail("You have been blocked", "Blocked user", user.Email)
 	return user, nil
 }
 
@@ -238,4 +245,24 @@ func (userService *UserService) ActivateUser(id uint) (*model.User, error) {
 	}
 
 	return user, nil
+}
+
+func (userService *UserService) SendEmail(text string, subject string, emailAddress string) error {
+	client := &http.Client{}
+	url := os.Getenv("EMAIL_SERVICE_URL") + "/send"
+	email := model.Email{
+		To:      emailAddress,
+		From:    "gled.io2022@gmail.com",
+		Subject: subject,
+		Body:    text,
+	}
+	body, _ := json.Marshal(email)
+	reader := bytes.NewReader(body)
+	req, _ := http.NewRequest("POST", url, reader)
+
+	_, err := client.Do(req)
+	if err != nil {
+		return errors.New("email failed to send")
+	}
+	return nil
 }

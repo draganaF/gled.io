@@ -67,10 +67,11 @@ def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = D
   if ticket.is_reserved == True:
     remote_calls.increment_users_reserved_tickets(ticket.user_id)
   else:
-    if remote_calls.buy_tickets(ticket.user_id, ticket.price) == 200:
-      remote_calls.increment_users_bougth_tickets(ticket.user_id)
-    else:
-      raise HTTPException(status_code=400, detail="Not enough resources on your ballans")
+    if ticket.user_id != -1:
+      if remote_calls.buy_tickets(ticket.user_id, ticket.price) == 200:
+        remote_calls.increment_users_bougth_tickets(ticket.user_id)
+      else:
+        raise HTTPException(status_code=400, detail="Not enough resource on your ballans")
 
   saved_ticket = repo.create_ticket(db=db, ticket=ticket)
 

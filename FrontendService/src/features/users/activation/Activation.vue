@@ -29,7 +29,7 @@ export default {
 
       if(ok) {
         toastr.success(message);
-        // TODO: ROUTE HIM SOMEWHERE ELSE
+        this.$router.push("/auth")
       } else {
         toastr.error(message);
       }

@@ -34,6 +34,19 @@ const actions = {
     });
   },
 
+  searchProjections: (context, searchParams) => {
+    axios.post(`http://localhost:8082/api/projections/search`, searchParams)
+    .then(response => {
+      context.commit('setProjections', response.data);
+    })
+    .catch(error => {
+      context.commit('setResult', { 
+        label: 'fetch', 
+        ok: false,
+        message: error.response.data  
+      });
+    });
+  },
   createProjection: (context, projection) => {
     axios.post(`http://localhost:8082/api/projections`, projection)
     .then(response => {
