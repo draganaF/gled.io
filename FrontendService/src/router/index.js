@@ -25,7 +25,32 @@ const routes = [
     meta: {
       layout: 'AppLayoutMain'
     }
-  }
+  }, 
+  {
+    path: '/projections/add-new-projection',
+    name: 'CreateProjection',
+    component: () => import('@/features/projection/ProjectionForm.vue'),
+    meta: {
+      layout:'AppLayoutMain'
+    }
+  },
+  {
+    path: '/movies',
+    name: 'Movies',
+    component: () => import('@/features/movies/Movies.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  }, 
+  {
+    path: '/movies/add-new-movie',
+    name: 'CreateMovie',
+    component: () => import('@/features/movies/MovieForm.vue'),
+    meta: {
+      layout:'AppLayoutMain'
+    }
+  },
+
 ]
     
 const router = new VueRouter({

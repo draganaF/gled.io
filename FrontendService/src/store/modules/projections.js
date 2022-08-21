@@ -33,6 +33,41 @@ const actions = {
         context.commit('setResult', { label: 'fetch', ok: false });
     });
   },
+
+  createProjection: (context, projection) => {
+    axios.post(`http://localhost:8082/api/projections`, projection)
+    .then(response => {
+      context.commit('setResult', { 
+        label: 'create',
+        ok: true,
+        message: "You have successfully added new projection"
+      });
+    })
+    .catch(error => {
+      context.commit('setResult', { 
+        label: 'create', 
+        ok: false,
+        message: error.response.data  
+      });
+    });
+  },
+  deleteProjection: (context, id) => {
+    axios.delete(`http://localhost:8082/api/projections/` + id)
+    .then(response => {
+      context.commit('setResult', { 
+        label: 'delete',
+        ok: true,
+        message: "You have successfully deleted projection"
+      });
+    })
+    .catch(error => {
+      context.commit('setResult', { 
+        label: 'delete', 
+        ok: false,
+        message: error.response.data  
+      });
+    });
+  }
 }
 
 

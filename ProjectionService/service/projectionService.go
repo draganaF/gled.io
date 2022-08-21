@@ -166,8 +166,13 @@ func (projectionService *ProjectionService) Update(projectionDto apicontract.Upd
 	return savedProjection, nil
 }
 
-func (projectionService *ProjectionService) Delete(id uint) {
+func (projectionService *ProjectionService) Delete(id uint) error {
+	_, err := projectionService.ReadProjectionById(id)
+	if err != nil {
+		return err
+	}
 	projectionService.repository.Delete(id)
+	return nil
 }
 
 func (projectionService *ProjectionService) AreTwoDateRangeOverlapping(startDate1 time.Time, endDate1 time.Time, startDate2 time.Time, endDate2 time.Time) bool {

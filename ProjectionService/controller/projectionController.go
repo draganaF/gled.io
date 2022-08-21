@@ -80,12 +80,11 @@ var ReadProjectionByMovieId = http.HandlerFunc(func(w http.ResponseWriter, r *ht
 })
 
 var CreateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
 	var request *apicontract.CreateProjectionRequest
 	err := utils.ReadJSONBody(r, &request)
 
 	if err != nil {
-		utils.JSONResponse(w, 400, "Bad request parsing")
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 
@@ -94,7 +93,7 @@ var CreateProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Requ
 	createdProjection, err := projectionService.Create(*request)
 
 	if err != nil {
-		utils.JSONResponse(w, 400, "Bad request")
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 
@@ -128,7 +127,10 @@ var DeleteProjection = http.HandlerFunc(func(w http.ResponseWriter, r *http.Requ
 
 	projectionService := service.NewProjectionService()
 
-	projectionService.Delete(uint(id))
-
+	err := projectionService.Delete(uint(id))
+	if err != nil {
+		utils.JSONResponse(w, 400, err.Error())
+		return
+	}
 	utils.JSONResponse(w, 200, nil)
 })

@@ -5,7 +5,6 @@ import { Roles } from '../constants'
 import router from '../router/index'
 
 export function setToken(token) {
-		console.log(token);
     localStorage.setItem('token', token);
 }
 
