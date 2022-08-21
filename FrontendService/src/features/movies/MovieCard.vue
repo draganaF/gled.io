@@ -41,6 +41,9 @@ export default {
   methods: {
     getGenre() {
       return Genre[this.movie.Genre] 
+    }, 
+    updateMovie() {
+      this.$router.push('/movies/update/'+ this.movie.Id);
     }
   },
   mounted(){

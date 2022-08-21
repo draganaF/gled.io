@@ -44,13 +44,33 @@ const actions = {
         });
     })
     .catch(error => {
+      
         context.commit('setResult', { 
           label: 'create',
           ok: false,
           message: error.response.data
          });
     });
-  }
+  }, 
+
+  updateMovie: (context, movie) => {
+    axios.put(`http://localhost:8082/api/movies`, movie)
+    .then(response => {
+        context.commit('setResult', {
+          label : 'update',
+          ok: true,
+          message: "You have successfully updated movie"
+        });
+    })
+    .catch(error => {
+      
+        context.commit('setResult', { 
+          label: 'update',
+          ok: false,
+          message: error.response.data
+         });
+    });
+  }, 
 }
 
 

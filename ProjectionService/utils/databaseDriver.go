@@ -96,6 +96,7 @@ var (
 	projections = []model.Projection{
 		{
 			MovieId: 1,
+			Price:   250,
 			Slot: time.Date(
 				2022, 9, 2, 20, 30, 0, 651387237, time.UTC),
 			CinemaHallId: 1,
@@ -126,6 +127,7 @@ var (
 		},
 		{
 			MovieId: 1,
+			Price:   220,
 			Slot: time.Date(
 				2022, 9, 3, 20, 30, 0, 651387237, time.UTC),
 			CinemaHallId: 1,
@@ -157,6 +159,7 @@ var (
 
 		{
 			MovieId: 2,
+			Price:   200,
 			Slot: time.Date(
 				2022, 9, 3, 16, 30, 0, 651387237, time.UTC),
 			CinemaHallId: 2,

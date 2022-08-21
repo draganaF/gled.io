@@ -10,6 +10,7 @@ type CreateProjectionRequest struct {
 	MovieId uint
 	Slot    time.Time
 	HallId  uint
+	Price   int
 }
 
 func (createProjectionRequest *CreateProjectionRequest) ToProjection() *model.Projection {
@@ -18,6 +19,7 @@ func (createProjectionRequest *CreateProjectionRequest) ToProjection() *model.Pr
 		Slot:         createProjectionRequest.Slot,
 		MovieId:      createProjectionRequest.MovieId,
 		CinemaHallId: createProjectionRequest.HallId,
+		Price:        createProjectionRequest.Price,
 		Deleted:      false,
 	}
 }

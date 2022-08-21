@@ -42,11 +42,11 @@ var ReadMovieById = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request
 })
 
 var CreateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	var request *apicontract.CreateMovieRequest
+	var request = &apicontract.CreateMovieRequest{}
 
 	err := utils.ReadJSONBody(r, &request)
-
 	if err != nil {
+		utils.JSONResponse(w, 400, "Bad request")
 		return
 	}
 
@@ -64,7 +64,7 @@ var CreateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 
 var UpdateMovie = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-	var request *apicontract.UpdateMovieRequest
+	var request = &apicontract.UpdateMovieRequest{}
 	err := utils.ReadJSONBody(r, &request)
 
 	if err != nil {

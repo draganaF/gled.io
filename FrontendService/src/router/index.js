@@ -50,6 +50,14 @@ const routes = [
       layout:'AppLayoutMain'
     }
   },
+  {
+    path: '/movies/update/:id',
+    name: 'UpdateMovie',
+    component: () => import('@/features/movies/MovieForm.vue'),
+    meta: {
+      layout:'AppLayoutMain'
+    }
+  },
 
 ]
     

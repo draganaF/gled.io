@@ -64,7 +64,7 @@ export default {
                 return;
 
             if(ok) {
-                this.$router.push('/');
+                this.$router.push('/projections');
             } else {
                 toastr.error(message)
             }
