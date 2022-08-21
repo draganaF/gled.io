@@ -64,14 +64,14 @@
 </template>
 
 <script>
-import Form from "../../components/Form/Form.vue";
-import FormRow from "../../components/Form/FormRow.vue";
-import Button from "../../components/Form/Button.vue";
+import Form from "../../../components/Form/Form.vue";
+import FormRow from "../../../components/Form/FormRow.vue";
+import Button from "../../../components/Form/Button.vue";
 import toastr from "toastr";
 import { mapActions, mapGetters } from "vuex";
-import Card from "../../components/Card/Card.vue";
-import TextInput from "../../components/Form/TextInput.vue";
-import SelectOptionInput from "../../components/Form/SelectOptionInput.vue";
+import Card from "../../../components/Card/Card.vue";
+import TextInput from "../../../components/Form/TextInput.vue";
+import SelectOptionInput from "../../../components/Form/SelectOptionInput.vue";
 
 const genres = [
   { value: 0, label: "Action" },

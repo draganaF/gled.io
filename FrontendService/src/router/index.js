@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/projections/add-new-projection',
     name: 'CreateProjection',
-    component: () => import('@/features/projection/createProjection/ProjectionForm.vue'),
+    component: () => import('@/features/projection/manageProjections/ProjectionForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }
@@ -37,7 +37,7 @@ const routes = [
   {
     path: '/movies',
     name: 'Movies',
-    component: () => import('@/features/movies/Movies.vue'),
+    component: () => import('@/features/movies/movies/Movies.vue'),
     meta: {
       layout: 'AppLayoutMain'
     }
@@ -45,7 +45,7 @@ const routes = [
   {
     path: '/movies/add-new-movie',
     name: 'CreateMovie',
-    component: () => import('@/features/movies/MovieForm.vue'),
+    component: () => import('@/features/movies/manageMovies/MovieForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }
@@ -53,7 +53,7 @@ const routes = [
   {
     path: '/movies/update/:id',
     name: 'UpdateMovie',
-    component: () => import('@/features/movies/MovieForm.vue'),
+    component: () => import('@/features/movies/manageMovies/MovieForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }

@@ -102,6 +102,24 @@ const actions = {
         });
       });
   },
+  updateBalance: (context, balanceObject) => {
+    axios.post(`${USER_SERVICE_URL}/users/update-balance`, balanceObject)
+    .then(response => {
+      console.log(response);
+      context.commit('setResult', {
+        label: 'balance',
+        ok: true,
+        message: 'You have successfully updated balanse.'
+      });
+    })
+    .catch(error => {
+      context.commit('setResult', {
+        label: 'balance',
+        ok: false,
+        message: error.response.data
+      });
+    });
+  },
 
   updateUserPassword: (context, credentials) => {
     axios.put(`${USER_SERVICE_URL}/users/update/password`, credentials)

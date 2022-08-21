@@ -30,6 +30,11 @@
                   <DateTimePicker label="Choose Date" v-model="Slot" />
                 </div>
               </FormRow>
+              <FormRow>
+                <div class="col-8">
+                  <NumberInput label="Input price" v-model="Price" />
+                </div>
+              </FormRow>
               <Button @click="handleCreate">Create</Button>
             </Form>
           </Card>
@@ -41,6 +46,7 @@
 
 <script>
 import Form from "../../../components/Form/Form.vue";
+import NumberInput from "../../../components/Form/NumberInput.vue"
 import FormRow from "../../../components/Form/FormRow.vue";
 import Button from "../../../components/Form/Button.vue";
 import SelectOptionInput from "../../../components/Form/SelectOptionInput.vue";
@@ -55,6 +61,7 @@ export default {
     Button,
     SelectOptionInput,
     DateTimePicker,
+    NumberInput,
     Card,
   },
 
@@ -63,6 +70,7 @@ export default {
       MovieId: "",
       Slot: "",
       CinemaHallId: "",
+      Price: 0,
       Movies: [],
       Halls: [],
     };
@@ -111,6 +119,7 @@ export default {
         MovieId: this.MovieId,
         Slot: this.Slot,
         HallId: this.CinemaHallId,
+        Price: this.Price
       };
 
       this.create(projection);

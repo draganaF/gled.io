@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import Button from '../../components/Form/Button.vue' 
-import { getUserIdFromToken, getRoleFromToken } from '../../utils/token';
-import {Roles, Genre} from '../../constants.js'
+import Button from '../../../components/Form/Button.vue' 
+import { getUserIdFromToken, getRoleFromToken } from '../../../utils/token';
+import {Roles, Genre} from '../../../constants.js'
 export default {
   components: {
     Button

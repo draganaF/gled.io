@@ -18,6 +18,7 @@
           <h4><b>{{formatDateTime(projection.Slot)}}</b></h4>
           <h4><b>{{projection.Movie.Duration}}min</b></h4>
           <h4><b>{{projection.CinemaHall.Name}}</b></h4>
+          <h4><b>{{projection.Price}} RSD</b></h4>
         </div>
       </div>
       

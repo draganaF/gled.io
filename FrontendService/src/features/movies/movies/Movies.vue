@@ -21,7 +21,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import MovieCard from "./MovieCard.vue";
-import Button from "../../components/Form/Button.vue";
+import Button from "../../../components/Form/Button.vue";
 import toastr from "toastr";
 
 export default {

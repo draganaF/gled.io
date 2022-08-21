@@ -207,13 +207,14 @@ func (userService *UserService) AddMoney(userId uint, amount float32) (*model.Us
 		return nil, errors.New("No user found with ID " + strconv.FormatUint(uint64(userId), 10))
 	}
 
-	user.Total += amount
+	newAmount := user.Total + amount
+	user.Total = newAmount
 	if user.Total <= 0 {
 		return nil, errors.New("there is not enough amount of money in account")
 	}
 
 	savedUser := userService.repository.Update(user)
-	message := "You have " + strconv.FormatFloat(float64(user.Total), 'E', -1, 32) + "USD on your account"
+	message := "You have " + strconv.FormatFloat(float64(user.Total), 'f', 2, 32) + "USD on your account"
 
 	userService.SendEmail(message, "User ballance", user.Email)
 	if savedUser == nil {
@@ -249,6 +250,7 @@ func (userService *UserService) ActivateUser(id uint) (*model.User, error) {
 
 func (userService *UserService) SendEmail(text string, subject string, emailAddress string) error {
 	client := &http.Client{}
+
 	url := os.Getenv("EMAIL_SERVICE_URL") + "/send"
 	email := model.Email{
 		To:      emailAddress,
@@ -258,9 +260,13 @@ func (userService *UserService) SendEmail(text string, subject string, emailAddr
 	}
 	body, _ := json.Marshal(email)
 	reader := bytes.NewReader(body)
-	req, _ := http.NewRequest("POST", url, reader)
+	req, err := http.NewRequest("POST", url, reader)
 
-	_, err := client.Do(req)
+	if err != nil {
+		print(err.Error())
+	}
+
+	_, err = client.Do(req)
 	if err != nil {
 		return errors.New("email failed to send")
 	}

@@ -18,6 +18,9 @@ func HandleRequests() {
 
 	router.Handle("/api/users/activate/{link}", controller.ActivateUser).Methods("GET")
 
+	router.Handle("/api/users/buy-tickets", Authenticate(Authorize(controller.BuyTicket, model.RegisteredUser, model.Worker))).Methods("POST")
+	router.Handle("/api/users/update-balance", Authenticate(Authorize(controller.UpdateBallans, model.Worker))).Methods("POST")
+
 	router.Handle("/api/users/{id}", Authenticate(controller.ReadUserById)).Methods("GET")
 	router.Handle("/api/users/by-email/{email}", Authenticate(Authorize(controller.ReadUserByEmail, model.Administrator, model.RegisteredUser, model.Worker))).Methods("GET")
 	router.Handle("/api/users", controller.CreateUser).Methods("POST")
@@ -31,9 +34,6 @@ func HandleRequests() {
 	router.Handle("/api/users/increment-bought-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfBougthTickets, model.RegisteredUser, model.Worker))).Methods("GET")
 	router.Handle("/api/users/increment-reserved-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfReservedTickets, model.RegisteredUser))).Methods("GET")
 	router.Handle("/api/users/increment-sold-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfSoldTickets, model.Worker))).Methods("GET")
-
-	router.Handle("/api/users/buy-tickets", Authenticate(Authorize(controller.BuyTicket, model.RegisteredUser, model.Worker))).Methods("POST")
-	router.Handle("/api/users/update-ballans", Authenticate(Authorize(controller.UpdateBallans, model.Worker))).Methods("POST")
 
 	corsOpts := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
