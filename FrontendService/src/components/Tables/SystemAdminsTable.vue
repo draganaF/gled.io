@@ -76,7 +76,7 @@ import SystemAdminForm from '../Forms/SystemAdminForm'
 import Button from '../Form/Button'
 import Pagination from '../Table/Pagination.vue'
 
-import { getAccountIdFromToken } from '../../utils/token'
+import { getUserIdFromToken } from '../../utils/token'
 import { mapActions, mapGetters } from 'vuex'
 import toastr from 'toastr'
 
@@ -114,7 +114,7 @@ export default {
             if(label !== 'delete')
                 return;
 
-            if(this.selectedSystemAdmin.id === getAccountIdFromToken()) {
+            if(this.selectedSystemAdmin.id === getUserIdFromToken()) {
                 this.$store.dispatch('authentication/logOut');
                 this.$router.push('/auth');
             }

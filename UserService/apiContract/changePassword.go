@@ -1,7 +1,7 @@
 package apicontract
 
 type ChangePassword struct {
-	UserId      uint
+	Id          uint
 	OldPassword string
 	NewPassword string
 }

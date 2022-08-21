@@ -24,7 +24,7 @@
 import SidebarItem from './SidebarItem.vue'
 import SidebarLogo from './SidebarLogo.vue'
 import {Roles} from '../../constants.js'
-import { getAccountIdFromToken, getRoleFromToken } from '../../utils/token'
+import { getUserIdFromToken, getRoleFromToken } from '../../utils/token'
 
 export default {
   data: () => {
@@ -35,7 +35,7 @@ export default {
   },
   mounted() {
     this.user = {
-      id: getAccountIdFromToken(),
+      id: getUserIdFromToken(),
       role: getRoleFromToken()
     }
   },

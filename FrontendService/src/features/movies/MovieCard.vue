@@ -22,7 +22,7 @@
 
 <script>
 import Button from '../../components/Form/Button.vue' 
-import { getAccountIdFromToken, getRoleFromToken } from '../../utils/token';
+import { getUserIdFromToken, getRoleFromToken } from '../../utils/token';
 import {Roles, Genre} from '../../constants.js'
 export default {
   components: {
@@ -48,7 +48,7 @@ export default {
   },
   mounted(){
       this.user = {
-      id: getAccountIdFromToken(),
+      id: getUserIdFromToken(),
       role: getRoleFromToken()
       }
     }

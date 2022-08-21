@@ -80,7 +80,7 @@ var CreateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	createdUser, err := userService.Create(*request)
 
 	if err != nil {
-		utils.JSONResponse(w, 400, "Bad request")
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 
@@ -105,7 +105,7 @@ var UpdateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	updatedUser, err := userService.Update(*request)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 
@@ -126,7 +126,7 @@ var ChangePassword = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reques
 	updatedUser, err := userService.ChangeUserPassword(*request)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 
@@ -282,14 +282,14 @@ var ActivateUser = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 	link, err := activationService.ActivateUser(text)
 
 	if err != nil {
-		utils.JSONResponse(w, 400, "Bad Reaquest")
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 
 	user, err := userService.ActivateUser(link.UserId)
 
 	if err != nil {
-		utils.JSONResponse(w, 400, "Bad Reaquest")
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 

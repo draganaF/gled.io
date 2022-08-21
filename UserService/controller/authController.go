@@ -27,7 +27,7 @@ var Auth = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	jwtToken, err := authService.Auth(loginRequest.Email, loginRequest.Password)
 
 	if err != nil {
-		utils.JSONResponse(w, 401, "Not authorized")
+		utils.JSONResponse(w, 401, err.Error())
 		return
 	}
 

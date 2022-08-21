@@ -25,7 +25,7 @@ const actions = {
             context.commit('setResult', {
                 label: 'authenticate',
                 ok: false,
-                message: error.response.data.ErrorMessage
+                message: error.response.data
             });
         });        
     },

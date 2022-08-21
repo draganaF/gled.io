@@ -56,16 +56,12 @@ export function shouldChangePassword() {
 	return shouldChangePassword === "true" ?? false;
 }
 	
-export function getAccountIdFromToken() {
+export function getUserIdFromToken() {
 	return decodeToken()?.name;
 }
 
-export function getUserIdFromToken(){
-	return decodeToken()?.UserId;
-}
-
 export function isUserLoggedIn() {
-    return getAccountIdFromToken() && !hasTokenExpired();
+    return getUserIdFromToken() && !hasTokenExpired();
 }
 
 

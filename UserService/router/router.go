@@ -19,9 +19,10 @@ func HandleRequests() {
 	router.Handle("/api/users/activate/{link}", controller.ActivateUser).Methods("GET")
 
 	router.Handle("/api/users/{id}", Authenticate(controller.ReadUserById)).Methods("GET")
-	router.Handle("/api/users/{email}", Authenticate(Authorize(controller.ReadUserByEmail, model.Administrator, model.RegisteredUser, model.Worker))).Methods("GET")
+	router.Handle("/api/users/by-email/{email}", Authenticate(Authorize(controller.ReadUserByEmail, model.Administrator, model.RegisteredUser, model.Worker))).Methods("GET")
 	router.Handle("/api/users", controller.CreateUser).Methods("POST")
 	router.Handle("/api/users/update", Authenticate(controller.UpdateUser)).Methods("PUT")
+	router.Handle("/api/users/update/password", Authenticate(controller.ChangePassword)).Methods("PUT")
 	router.Handle("/api/users/block-user/{id}", Authenticate(Authorize(controller.BlockUser, model.Administrator))).Methods("GET")
 	router.Handle("/api/users/delete-user/{id}", Authenticate(Authorize(controller.DeleteUser, model.Administrator))).Methods("DELETE")
 	router.Handle("/api/users/search", Authenticate(Authorize(controller.Search, model.Administrator, model.Worker))).Methods("POST")

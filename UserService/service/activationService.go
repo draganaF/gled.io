@@ -36,7 +36,7 @@ func (activationService *ActivationService) ActivateUser(text string) (*model.Ac
 	link := activationService.repository.ActivateUser(text)
 
 	if link == nil {
-		return nil, errors.New("No activation link")
+		return nil, errors.New("Activation link is not correct")
 	}
 
 	return link, nil

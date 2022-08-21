@@ -31,6 +31,14 @@ func (authService *AuthService) Auth(email string, password string) (string, err
 		return "", errors.New("Passwords do not match.")
 	}
 
+	if user.Active == false {
+		return "", errors.New("User is not activated.")
+	}
+
+	if user.Blocked == true {
+		return "", errors.New("User is blocked.")
+	}
+
 	claims := utils.Claims{
 		Name: strconv.FormatUint(uint64(user.Id), 10),
 		Role: strconv.Itoa(int(user.Role)),

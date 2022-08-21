@@ -58,6 +58,54 @@ const routes = [
       layout:'AppLayoutMain'
     }
   },
+  {
+    path: '/users/registration',
+    name: 'Registration',
+    component: () => import('@/features/users/registration/Registration.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
+  {
+    path: '/users/activation',
+    name: 'Activation',
+    component: () => import('@/features/users/activation/Activation.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
+  {
+    path: '/users/workers',
+    name: 'Workers',
+    component: () => import('@/features/users/workers/Workers.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
+  {
+    path: '/users/registred',
+    name: 'Registred Users',
+    component: () => import('@/features/users/users/Users.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
+  {
+    path: '/users/:id',
+    name: 'Any User Profile',
+    component: () => import('@/features/users/user-profile/UserProfile.vue'),
+    meta: {
+      ayout: 'AppLayoutMain'
+    }
+  },
+  {
+    path: '/users/profile',
+    name: 'Current User Profile',
+    component: () => import('@/features/users/user-profile/UserProfile.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
 
 ]
     

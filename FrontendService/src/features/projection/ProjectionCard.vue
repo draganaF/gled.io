@@ -33,7 +33,7 @@
 import Button from '../../components/Form/Button.vue' 
 import moment from 'moment'
 import { mapActions } from 'vuex';
-import { getAccountIdFromToken, getRoleFromToken } from '../../utils/token';
+import { getUserIdFromToken, getRoleFromToken } from '../../utils/token';
 import {Roles} from '../../constants.js';
 
 export default {
@@ -68,7 +68,7 @@ export default {
     },
     mounted(){
       this.user = {
-      id: getAccountIdFromToken(),
+      id: getUserIdFromToken(),
       role: getRoleFromToken()
       }
     }

@@ -98,7 +98,7 @@ func (userService *UserService) Update(updateUser apicontract.UpdateUser) (*mode
 }
 
 func (userService *UserService) ChangeUserPassword(request apicontract.ChangePassword) (*model.User, error) {
-	user := userService.repository.ReadUserById(request.UserId)
+	user := userService.repository.ReadUserById(request.Id)
 
 	if user == nil {
 		return nil, errors.New("User not found")
