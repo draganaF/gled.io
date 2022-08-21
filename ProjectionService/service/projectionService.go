@@ -146,6 +146,21 @@ func (projectionService *ProjectionService) Create(projectionDto apicontract.Cre
 	return projection, nil
 }
 
+func (projectionService *ProjectionService) DeleteUnboughtTickets() *[]model.Projection {
+	projections := projectionService.repository.ReadProjectionsThatStartInHalfAnHoure()
+
+	client := http.Client{}
+
+	for _, value := range *projections {
+		url := os.Getenv("TICKETS_SERVICE_URL") + "/api/tickets/deleting-unbought-tickets/" + strconv.Itoa(int(value.ID))
+		req, _ := http.NewRequest("GET", url, nil)
+		req.Header.Add("Accept", "application/json")
+		client.Do(req)
+	}
+
+	return projections
+}
+
 func (projectionService *ProjectionService) Update(projectionDto apicontract.UpdateProjectionRequest) (*model.Projection, error) {
 	existingProjection := projectionService.repository.ReadProjectionById(projectionDto.Id)
 

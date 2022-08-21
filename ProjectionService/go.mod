@@ -12,5 +12,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/rs/cors v1.8.2
-	gorm.io/gorm v1.23.8 // indirect
+	gopkg.in/robfig/cron.v2 v2.0.0-20150107220207-be2e0b0deed5
+	gorm.io/gorm v1.23.8
 )

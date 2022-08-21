@@ -122,16 +122,7 @@ def buy_ticket(request: Request, id, db:Session = Depends(get_db)):
   return ticket
 
 @app.get("/api/tickets/deleting-unbought-tickets/{projection_id}", status_code=200)
-def delete_unbougth_tickets(request: Request, projection_id, db: Session = Depends(get_db)):
-  token = request.headers.get("Authorization")
-  status_code = remote_calls.authorize(token, [0, 1, 2])
-  if status_code == 400:
-    raise HTTPException(status_code=400, detail="No header")
-  if status_code == 401:
-    raise HTTPException(status_code=401, detail="You are unauthorized")
-  if status_code == 403:
-    raise HTTPException(status_code=403, detail="You dont have permission")
-
+def delete_unbougth_tickets(projection_id, db: Session = Depends(get_db)):
   tickets = repo.find_reserved_tickets_users(db=db, projection_id=projection_id)
 
   users_id = set()

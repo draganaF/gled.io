@@ -102,6 +102,18 @@ func (projectionRepository *ProjectionRepository) ReadProjectionsByMovieId(movie
 	return projections
 }
 
+func (projectionRepository *ProjectionRepository) ReadProjectionsThatStartInHalfAnHoure() *[]model.Projection {
+	projections := &[]model.Projection{}
+	timeNow := time.Now()
+	timeInHalfAnHour := timeNow.Add(time.Minute * 30)
+	result := projectionRepository.DB.Where("slot <= $1 AND slot >= $2", timeInHalfAnHour, timeNow).Find(projections)
+
+	if result.RowsAffected == 0 {
+		return nil
+	}
+
+	return projections
+}
 func (projectionRepository *ProjectionRepository) Create(projection *model.Projection) *model.Projection {
 	projectionRepository.DB.Create(projection)
 
