@@ -106,7 +106,7 @@ func (projectionRepository *ProjectionRepository) ReadProjectionsThatStartInHalf
 	projections := &[]model.Projection{}
 	timeNow := time.Now()
 	timeInHalfAnHour := timeNow.Add(time.Minute * 30)
-	result := projectionRepository.DB.Where("slot <= $1 AND slot >= $2", timeInHalfAnHour, timeNow).Find(projections)
+	result := projectionRepository.DB.Where("slot <= ? AND slot >= ?", timeInHalfAnHour, timeNow).Find(projections)
 
 	if result.RowsAffected == 0 {
 		return nil

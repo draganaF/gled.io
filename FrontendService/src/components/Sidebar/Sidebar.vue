@@ -2,17 +2,20 @@
   <div class="sidebar" data-color="purple" data-background-color="white">
       <sidebar-logo></sidebar-logo>
       <div class="sidebar-wrapper">
-        <ul class="nav" v-if="user.role === Roles.Worker">
+        <ul class="nav" v-if="user.role === 'Worker'">
           <sidebar-item name="Movies" icon="contacts" to="/movies"></sidebar-item>
           <sidebar-item name="Projections" icon="assignment" to="/projections"></sidebar-item>
-          <sidebar-item name="Update user balans" icon="event" to="/work-calendar"></sidebar-item>
+          <sidebar-item name="Tickets" icon="event" to="/tickets"></sidebar-item>
+          <sidebar-item name="Users" icon="event" to="/users/registred"></sidebar-item>
         </ul>
-        <ul class="nav" v-else-if="user.role === Roles.Administrator">
+        <ul class="nav" v-else-if="user.role === 'Administrator'">
           <sidebar-item name="Home" icon="dashboard" to="/"></sidebar-item>
           <sidebar-item name="Movies" icon="contacts" to="/movies"></sidebar-item>
+          <sidebar-item name="Workers" icon="contacts" to="/users/workers"></sidebar-item>
+          <sidebar-item name="Users" icon="contacts" to="/users/registred"></sidebar-item>
         </ul>
         <ul class="nav" v-else>
-          <sidebar-item name="Home" icon="dashboard" to="/projections"></sidebar-item>
+          <sidebar-item name="Projections" icon="dashboard" to="/projections"></sidebar-item>
           <sidebar-item name="Movies" icon="local_pharmacy" to="/movies"></sidebar-item>
         </ul>
 
@@ -37,6 +40,7 @@ export default {
     this.user = {
       id: getUserIdFromToken(),
       role: getRoleFromToken()
+      
     }
   },
   components: {

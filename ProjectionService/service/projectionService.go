@@ -152,7 +152,7 @@ func (projectionService *ProjectionService) DeleteUnboughtTickets() *[]model.Pro
 	client := http.Client{}
 
 	for _, value := range *projections {
-		url := os.Getenv("TICKETS_SERVICE_URL") + "/api/tickets/deleting-unbought-tickets/" + strconv.Itoa(int(value.ID))
+		url := os.Getenv("TICKETS_SERVICE_URL") + "/api/tickets/deleting-unbought-tickets/" + strconv.Itoa(int(value.Id))
 		req, _ := http.NewRequest("GET", url, nil)
 		req.Header.Add("Accept", "application/json")
 		client.Do(req)

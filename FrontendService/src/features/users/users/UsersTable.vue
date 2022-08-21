@@ -143,7 +143,7 @@ export default {
         UserId: this.selectedUser?.Id,
         Money: this.Price,
       };
-      console.log(balanceObject)
+     
       this.updateBalance(balanceObject);
     },
     handleBlockUser() {

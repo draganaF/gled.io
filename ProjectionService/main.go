@@ -8,6 +8,5 @@ import (
 func main() {
 	utils.SetupEnviroment()
 	utils.ConnectToDatabase()
-	utils.SetupChron()
 	router.HandleRequests()
 }

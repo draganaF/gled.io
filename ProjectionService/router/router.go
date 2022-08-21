@@ -4,9 +4,11 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/draganaF/gled.io/ProjectionService/chron"
 	"github.com/draganaF/gled.io/ProjectionService/controller"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"gopkg.in/robfig/cron.v2"
 )
 
 func HandleRequests() {
@@ -27,6 +29,10 @@ func HandleRequests() {
 
 	router.Handle("/api/cinema-halls", controller.GetAllCinemaHalls).Methods("GET")
 	router.Handle("/api/cinema-halls/{id}", controller.GetCinemaHallById).Methods("GET")
+
+	c := cron.New()
+	c.AddFunc("@every 30m", chron.DeleteUnbougthReservedTickets)
+	c.Start()
 
 	corsOpts := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},

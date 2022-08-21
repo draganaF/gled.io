@@ -80,12 +80,12 @@ var (
 				{
 					Id:    2,
 					Mark:  "A",
-					Seats: 12,
+					Seats: 8,
 				},
 				{
 					Id:    3,
 					Mark:  "B",
-					Seats: 15,
+					Seats: 8,
 				},
 			},
 		},
@@ -183,12 +183,12 @@ var (
 					{
 						Id:    2,
 						Mark:  "A",
-						Seats: 12,
+						Seats: 8,
 					},
 					{
 						Id:    3,
 						Mark:  "B",
-						Seats: 15,
+						Seats: 8,
 					},
 				},
 			},

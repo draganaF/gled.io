@@ -5,6 +5,7 @@ import projections from './modules/projections'
 import movies from './modules/movies'
 import cinemaHalls from './modules/cinemaHalls'
 import users from './modules/users'
+import tickets from './modules/tickets'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     projections,
     cinemaHalls,
     movies,
-    users
+    users,
+    tickets
   }
 });

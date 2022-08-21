@@ -34,6 +34,7 @@ func VerifyJwtToken(tokenString string) (jwt.Claims, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	println("jwtgo")
+	println(token.Claims)
 	return token.Claims, err
 }

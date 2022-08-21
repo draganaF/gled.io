@@ -1,12 +1,27 @@
 from fastapi import Depends, FastAPI, HTTPException, Request
 from sqlalchemy.orm import Session
 import schema, models, repo, remote_calls
-
+from fastapi.middleware.cors import CORSMiddleware
 from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+origins = [
+    "http://localhost:8082",
+    "http://localhost:8083",
+    "http://localhost:8086",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def get_db():
     db = SessionLocal()
@@ -52,6 +67,7 @@ def get_all_tickets(request: Request, db: Session = Depends(get_db)):
 def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = Depends(get_db)):
 
   token = request.headers.get("Authorization")
+  print(token)
   status_code = remote_calls.authorize(token, [0, 1, 2])
   if status_code == 400:
     raise HTTPException(status_code=400, detail="No header")
@@ -105,7 +121,7 @@ def get_tickets_for_projection(request: Request, projection_id, db: Session = De
   tickets = repo.get_tickets_by_projection_id(db=db, projection_id=projection_id)
   return tickets
 
-@app.get("/api/tickets/buy-reserved_ticket/{id}",response_model=schema.Ticket, status_code=200)
+@app.get("/api/tickets/buy-reserved-ticket/{id}",response_model=schema.Ticket, status_code=200)
 def buy_ticket(request: Request, id, db:Session = Depends(get_db)):
   token = request.headers.get("Authorization")
   status_code = remote_calls.authorize(token, [0, 1, 2])

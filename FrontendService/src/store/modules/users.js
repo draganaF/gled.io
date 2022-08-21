@@ -18,6 +18,7 @@ const actions = {
   searchUsers: (context, params) => {
     axios.post(`${USER_SERVICE_URL}/users/search`, params)
       .then(response => {
+        console.log(params)
         console.log(response.data);
         context.commit('setUsers', response.data);
       })
@@ -104,21 +105,21 @@ const actions = {
   },
   updateBalance: (context, balanceObject) => {
     axios.post(`${USER_SERVICE_URL}/users/update-balance`, balanceObject)
-    .then(response => {
-      console.log(response);
-      context.commit('setResult', {
-        label: 'balance',
-        ok: true,
-        message: 'You have successfully updated balanse.'
+      .then(response => {
+        console.log(response);
+        context.commit('setResult', {
+          label: 'balance',
+          ok: true,
+          message: 'You have successfully updated balanse.'
+        });
+      })
+      .catch(error => {
+        context.commit('setResult', {
+          label: 'balance',
+          ok: false,
+          message: error.response.data
+        });
       });
-    })
-    .catch(error => {
-      context.commit('setResult', {
-        label: 'balance',
-        ok: false,
-        message: error.response.data
-      });
-    });
   },
 
   updateUserPassword: (context, credentials) => {
@@ -177,7 +178,43 @@ const actions = {
           message: error.response.data
         });
       })
-  }
+  },
+  incrementWorkersSoldTickets: (context, userId) => {
+    axios.get(`${USER_SERVICE_URL}/users/increment-sold-tickets/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        context.commit('setResult', {
+          label: 'increment',
+          ok: true,
+          message: `You have successfully sold ticket.`
+        });
+      })
+      .catch(error => {
+        context.commit('setResult', {
+          label: 'increment',
+          ok: false,
+          message: error.response.data
+        });
+      })
+  },
+  incrementUsersBoughtTickets: (context, userId) => {
+    axios.get(`${USER_SERVICE_URL}/users/increment-bought-tickets/${userId}`)
+      .then(response => {
+        context.commit('setResult', {
+          label: 'increment',
+          ok: true,
+          message: `You have successfully sold ticket.`
+        });
+      })
+      .catch(error => {
+        context.commit('setResult', {
+          label: 'increment',
+          ok: false,
+          message: error.response.data
+        });
+      })
+  },
+
 }
 
 

@@ -1,7 +1,7 @@
 export const Roles = {
-    "2": "Administrator",
-    "1": "Worker",
-    "0": "RegisteredUser",
+    "Administrator" : 2,
+    "Worker" : 1,
+    "RegisteredUser" : 0,
 }
 
 export const Genre = {

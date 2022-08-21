@@ -20,7 +20,7 @@ var Search = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
+	println("Jebem ti projekat")
 	userService := service.NewUserService()
 
 	users, err := userService.Search(&p)

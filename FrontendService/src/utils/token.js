@@ -45,9 +45,10 @@ export function getRoleFromToken() {
 		return null;
 	}
 
-    const roleFromToken = decodeToken()?.role;
+  const roleFromToken = decodeToken()?.role;
 
-	return Object.keys(Roles).find(role => Roles[role] === roleFromToken);
+	const roleIs = Object.keys(Roles).find(role => Roles[role] == roleFromToken);
+	return roleIs
 }
 
 export function shouldChangePassword() {

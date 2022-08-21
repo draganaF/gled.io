@@ -36,6 +36,7 @@ var Authorize = func(next http.Handler, roles ...model.Role) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		tokenString := r.Header.Get("Authorization")
+		print(tokenString)
 		claims, err := ReturnClaims(tokenString)
 
 		if err != nil && err.Error() == "No header found" {
@@ -43,6 +44,7 @@ var Authorize = func(next http.Handler, roles ...model.Role) http.Handler {
 			return
 		}
 
+		println(err != nil)
 		if err != nil && err.Error() == "You are not authorized" {
 			utils.JSONResponse(w, 401, err)
 			return
@@ -68,7 +70,7 @@ var Authorize = func(next http.Handler, roles ...model.Role) http.Handler {
 
 func ReturnClaims(tokenString string) (jwt.Claims, error) {
 	if len(tokenString) == 0 {
-		return nil, errors.New("No header")
+		return nil, errors.New("No header found")
 	}
 
 	tokenString = strings.Replace(tokenString, "Bearer ", "", 1)

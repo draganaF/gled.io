@@ -106,6 +106,14 @@ const routes = [
       layout: 'AppLayoutMain'
     }
   },
+  {
+    path: '/tickets',
+    name: 'Tickets Table',
+    component: () => import('@/features/tickets/tickets/Tickets.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  }
 
 ]
     
