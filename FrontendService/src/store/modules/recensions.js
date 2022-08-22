@@ -1,15 +1,16 @@
 import axios from "axios";
+import Vue from "vue";
 import { RECENSIONS_SERVICE_URL } from "../../url";
 
 const state = {
-  score: 0,
+  score: {},
   recension: null,
   recensions: null,
   result: null
 };
 
 const getters = {
-  getScore: state => state.score,
+  getScore: state => movieId => state.score[movieId],
   getRecension: state => state.recension,
   getRecensions: state => state.recensions,
   getResult: state => state.result
@@ -19,7 +20,7 @@ const actions = {
   fetchScoreByMovieId: (context, movieId) => {
     axios.get(`${RECENSIONS_SERVICE_URL}/recensions/score-by-movie-id/${movieId}`)
     .then(response => {
-      context.commit('setScore', response.data.Score);
+      context.commit('setScore', { movieId: movieId, score: response.data.Score });
     })
     .catch(error => {
       context.commit('setResult', {
@@ -108,8 +109,8 @@ const actions = {
 };
 
 const mutations = {
-  setScore: (state, response) => {
-    state.score = response;
+  setScore: (state, { movieId, score }) => {
+    Vue.set(state.score, movieId, score);
   },
 
   setRecension: (state, response) => {

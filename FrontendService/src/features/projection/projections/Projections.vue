@@ -60,7 +60,7 @@ export default {
   computed: {
     ...mapGetters({
       projections: "projections/getProjections",
-      result: "projections/getResult",
+      result: "projections/getResult"
     }),
   },
   watch: {

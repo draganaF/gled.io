@@ -7,20 +7,32 @@
             <Form @submit="onSubmit($event)">
               <FormRow>
                 <div class="col-6">
-                  <TextInput label="Movie Name" v-model="movie.Name" />
+                  <TextInput 
+                  label="Movie Name" 
+                  v-model="movie.Name" 
+                  :isValid="validateText(movie.Name)" />
                 </div>
                 <div class="col-6">
-                  <TextInput label="Director" v-model="movie.Director" />
+                  <TextInput 
+                  label="Director" 
+                  v-model="movie.Director"
+                  :isValid="validateText(movie.Director)" />
                 </div>
               </FormRow>
               <FormRow>
                 <div class="col-12">
-                  <TextInput label="Plot" v-model="movie.Plot" />
+                  <TextInput 
+                  label="Plot" 
+                  v-model="movie.Plot"
+                  :isValid="validateText(movie.Plot)" />
                 </div>
               </FormRow>
               <FormRow>
                 <div class="col-12">
-                  <TextInput label="Actors" v-model="movie.Actors" />
+                  <TextInput 
+                  label="Actors" 
+                  v-model="movie.Actors"
+                  :isValid="validateText(movie.Actors)" />
                 </div>
               </FormRow>
               <FormRow>
@@ -40,18 +52,24 @@
 
               <FormRow>
                 <div class="col-6">
-                  <TextInput label="Duration" v-model="movie.Duration" />
+                  <NumberInput label="Duration" v-model="movie.Duration" />
                 </div>
                 <div class="col-6">
-                  <TextInput label="Year" v-model="movie.Year" />
+                  <NumberInput label="Year" v-model="movie.Year" />
                 </div>
               </FormRow>
               <FormRow>
                 <div class="col-6">
-                  <TextInput label="Country" v-model="movie.Country" />
+                  <TextInput 
+                  label="Country" 
+                  v-model="movie.Country"
+                  :isValid="validateText(movie.Country)" />
                 </div>
                 <div class="col-6">
-                  <TextInput label="Language" v-model="movie.Language" />
+                  <TextInput 
+                  label="Language" 
+                  v-model="movie.Language"
+                  :isValid="validateText(movie.Language)" />
                 </div>
               </FormRow>
               <Button type="submit">{{ isEdit ? 'Update' : 'Create' }}</Button>
@@ -69,9 +87,12 @@ import FormRow from "../../../components/Form/FormRow.vue";
 import Button from "../../../components/Form/Button.vue";
 import toastr from "toastr";
 import { mapActions, mapGetters } from "vuex";
+import { validateText } from '../../../utils/validation';
+
 import Card from "../../../components/Card/Card.vue";
 import TextInput from "../../../components/Form/TextInput.vue";
 import SelectOptionInput from "../../../components/Form/SelectOptionInput.vue";
+import NumberInput from "../../../components/Form/NumberInput.vue";
 
 const genres = [
   { value: 0, label: "Action" },
@@ -111,6 +132,7 @@ export default {
     Card,
     TextInput,
     SelectOptionInput,
+    NumberInput
   },
   
   data: function () {
@@ -154,6 +176,7 @@ export default {
       update: "movies/updateMovie",
       fetchMovie: "movies/fetchMovieById"
     }),
+    validateText,
 
     setEdit() {
       
@@ -176,8 +199,8 @@ export default {
         Actors: this.movie.Actors,
         Language: this.movie.Language,
         Picture: this.movie.Picture,
-        Duration: this.movie.Duration,
-        Year: this.movie.Year,
+        Duration: +this.movie.Duration,
+        Year: +this.movie.Year,
         Country: this.movie.Country,
       };
 
