@@ -7,9 +7,14 @@
     </div>
     <div class="card-body">
       <h1 class="card-title">{{projection.Movie.Name}}</h1>
-      <h3>{{projection.Movie.Plot}}</h3>
-      <h3><b>Director:</b>{{projection.Movie.Director}}</h3>
-      <h3><b>Actors:</b>{{projection.Movie.Actors}}</h3>
+      <Stars :numOfStars="score"/>
+      <h4>{{projection.Movie.Plot}}</h4>
+      <h4><b>Director:</b>{{projection.Movie.Director}}</h4>
+      <h4><b>Actors:</b>{{projection.Movie.Actors}}</h4>
+      <h4><b>Language:</b>{{projection.Movie.Language}}</h4>
+      <h4><b>Country:</b>{{projection.Movie.Country}}</h4>
+      <h4><b>Year:</b>{{projection.Movie.Year}}</h4>
+      <h4><b>Genre:</b>{{getGenre()}}</h4>
       <div class="card col-md-6">
         <div class="card-header card-header-rose">
           <h3 class="card-title"><b>Projection Information</b></h3>
@@ -24,8 +29,8 @@
       
     </div>
     <div class="card-footer">
-    <Button @click="getTickets" class="pull-left">Get Tickets</Button>
-    <Button @click="deleteProjection" v-if="user.role === Roles.Worker">Delete</Button>
+    <Button @click="getTickets" v-if="!!user.role" class="pull-left">Get Tickets</Button>
+    <Button @click="deleteProjection" v-if="user.role === 'Worker'">Delete</Button>
     </div>
   </div>
 </template>
@@ -33,14 +38,17 @@
 <script>
 import Button from '../../../components/Form/Button.vue' 
 import moment from 'moment'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { getUserIdFromToken, getRoleFromToken } from '../../../utils/token';
-import {Roles} from '../../../constants.js';
+import {Roles, Genre} from '../../../constants.js';
+import Stars from '../../../components/Rating/Stars.vue';
+
 
 export default {
     components: {
-        Button
-    },
+    Button,
+    Stars
+},
 
     data: function () {
       return {
@@ -49,15 +57,22 @@ export default {
       };
     },
     props: ['projection'],
-
+    computed: {
+        ...mapGetters({
+        score: "recensions/getScore",
+      })
+    },
     methods: {
         ...mapActions({
-          delete: "projections/deleteProjection"
+          delete: "projections/deleteProjection",
+          fetchScore: "recensions/fetchScoreByMovieId"
         }),
-
+        getGenre() {
+          return Genre[this.projection.Movie.Genre] 
+        },
         getTickets(e) {
             e.preventDefault();
-            this.$router.push(`/projections/${this.projection.id}`);
+            this.$router.push(`/projections/tickets/${this.projection.Id}`);
         },
         formatDateTime(date) {
             return moment(date).format("DD.MM.YYYY HH:mm");
@@ -72,6 +87,8 @@ export default {
       id: getUserIdFromToken(),
       role: getRoleFromToken()
       }
+      
+      this.fetchScore(this.projection.Movie.Id)
     }
 }
 </script>

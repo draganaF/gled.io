@@ -18,7 +18,7 @@ func HandleRequests() {
 
 	router.Handle("/api/users/activate/{link}", controller.ActivateUser).Methods("GET")
 
-	router.Handle("/api/users/buy-tickets", Authenticate(Authorize(controller.BuyTicket, model.RegisteredUser, model.Worker))).Methods("POST")
+	router.Handle("/api/users/buy-tickets", controller.BuyTicket).Methods("POST")
 	router.Handle("/api/users/update-balance", Authenticate(Authorize(controller.UpdateBallans, model.Worker))).Methods("POST")
 
 	router.Handle("/api/users/{id}", Authenticate(controller.ReadUserById)).Methods("GET")
@@ -28,12 +28,12 @@ func HandleRequests() {
 	router.Handle("/api/users/update/password", Authenticate(controller.ChangePassword)).Methods("PUT")
 	router.Handle("/api/users/block-user/{id}", Authenticate(Authorize(controller.BlockUser, model.Administrator))).Methods("GET")
 	router.Handle("/api/users/delete-user/{id}", Authenticate(Authorize(controller.DeleteUser, model.Administrator))).Methods("DELETE")
-	router.Handle("/api/users/search", Authenticate(Authorize(controller.Search, model.Administrator, model.Worker))).Methods("POST")
+	router.Handle("/api/users/search", Authenticate(Authorize(controller.Search, model.RegisteredUser, model.Administrator, model.Worker))).Methods("POST")
 
 	router.Handle("/api/users/increment-negative-points/{id}", controller.IncrementNegativePoints).Methods("GET")
-	router.Handle("/api/users/increment-bought-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfBougthTickets, model.RegisteredUser, model.Worker))).Methods("GET")
-	router.Handle("/api/users/increment-reserved-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfReservedTickets, model.RegisteredUser))).Methods("GET")
-	router.Handle("/api/users/increment-sold-tickets/{id}", Authenticate(Authorize(controller.IncrementNumberOfSoldTickets, model.Worker))).Methods("GET")
+	router.Handle("/api/users/increment-bought-tickets/{id}", controller.IncrementNumberOfBougthTickets).Methods("GET")
+	router.Handle("/api/users/increment-reserved-tickets/{id}", controller.IncrementNumberOfReservedTickets).Methods("GET")
+	router.Handle("/api/users/increment-sold-tickets/{id}", controller.IncrementNumberOfSoldTickets).Methods("GET")
 
 	corsOpts := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},

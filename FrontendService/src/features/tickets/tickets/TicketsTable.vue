@@ -14,7 +14,7 @@
       />
       <TableRow v-for="t in tickets" :key="t.id" :values="getTicketsValues(t)" >
           <DropdownMenu>
-            <ModalOpener modalBoxId="buyTicketClick" v-if="!t.is_bought">
+            <ModalOpener modalBoxId="buyTicketClick" v-if="!t.is_bought && role == 'Worker'">
               <DropdownItem @click="handleBuyTicketClick(t)"
                 >Buy
               </DropdownItem>
@@ -47,7 +47,7 @@ import ModalOpener from "../../../components/Modal/ModalOpener.vue";
 import Modal from "../../../components/Modal/Modal.vue";
 import OptionModalButtons from "../../../components/Modal/OptionModalButtons.vue";
 import { mapActions, mapGetters } from "vuex";
-import { getUserIdFromToken } from "../../../utils/token";
+import { getRoleFromToken, getUserIdFromToken } from "../../../utils/token";
 import toastr from "toastr";
 import moment from 'moment'
 
@@ -65,7 +65,8 @@ export default {
   props: ["tickets"],
   
   data: () => ({
-    selectedTicket: null
+    selectedTicket: null,
+    role: "",
   }),
 
   computed: {
@@ -123,6 +124,7 @@ export default {
   },
   mounted() {
     this.fetchProjections()
+    this.role = getRoleFromToken();
   }
 }
 </script>

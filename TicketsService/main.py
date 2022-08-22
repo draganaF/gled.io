@@ -67,7 +67,6 @@ def get_all_tickets(request: Request, db: Session = Depends(get_db)):
 def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = Depends(get_db)):
 
   token = request.headers.get("Authorization")
-  print(token)
   status_code = remote_calls.authorize(token, [0, 1, 2])
   if status_code == 400:
     raise HTTPException(status_code=400, detail="No header")
@@ -75,7 +74,7 @@ def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = D
     raise HTTPException(status_code=401, detail="You are unauthorized")
   if status_code == 403:
     raise HTTPException(status_code=403, detail="You dont have permission")
-
+  print("Tu sam jeebs")
   db_ticket = repo.get_tickets_by_seat(db, seat=ticket.seat, projection_id=ticket.projection_id)
   if db_ticket:
     raise HTTPException(status_code=400, detail="Seat is taken")
@@ -85,6 +84,7 @@ def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = D
   else:
     if ticket.user_id != -1:
       if remote_calls.buy_tickets(ticket.user_id, ticket.price) == 200:
+        print("U price ssam")
         remote_calls.increment_users_bougth_tickets(ticket.user_id)
       else:
         raise HTTPException(status_code=400, detail="Not enough resource on your ballans")

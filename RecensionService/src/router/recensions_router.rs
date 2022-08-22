@@ -35,7 +35,7 @@ pub fn get_all_recensions(token: Token) -> content::Json<String> {
   
   let mut recension_s = recensions_service::RecensionsService::new();
 
-  return content::Json(Json(json!(recension_s.get_all())).to_string());
+  return content::Json(Json(json!(recension_s.get_all().unwrap())).to_string());
 }
 
 #[get("/by-id/<id>", format = "application/json")]
@@ -49,7 +49,7 @@ pub fn get_by_id(token: Token, id :i32) -> content::Json<String> {
   
   let mut recension_s = recensions_service::RecensionsService::new();
 
-  return content::Json(Json(json!(recension_s.get_by_id(id))).to_string());
+  return content::Json(Json(json!(recension_s.get_by_id(id).unwrap())).to_string());
 }
 
 #[get("/by-movie-id/<id>")]
@@ -63,14 +63,14 @@ pub fn get_by_movie_id(token: Token, id :i32) -> content::Json<String> {
 
   let mut recension_s = recensions_service::RecensionsService::new();
 
-  return content::Json(Json(json!(recension_s.get_by_movie_id(id))).to_string());
+  return content::Json(Json(json!(recension_s.get_by_movie_id(id).unwrap())).to_string());
 }
 
 #[get("/score-by-movie-id/<id>")]
 pub fn get_score_by_movie_id(id :i32) -> content::Json<String> {
   let mut recension_s = recensions_service::RecensionsService::new();
-
-  return content::Json(Json(json!(recension_s.get_score_by_movie_id(id))).to_string());
+  println!("SCORE JE: {}", recension_s.get_score_by_movie_id(id).unwrap().Score);
+  return content::Json(Json(json!(recension_s.get_score_by_movie_id(id).unwrap())).to_string());
 }
 
 #[post("/create", data = "<recension>")]

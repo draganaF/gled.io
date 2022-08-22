@@ -16,11 +16,11 @@
       </FormRow>
       <FormRow>
         <div class="col-3">
-          <TextInput label="Duration" v-model="params.Duration" />
+          <NumberInput label="Duration" v-model="params.Duration" />
         </div>
 
         <div class="col-3">
-          <TextInput label="Year" v-model="params.Year" />
+          <NumberInput label="Year" v-model="params.Year" />
         </div>
 
         <div class="col-3">
@@ -41,25 +41,34 @@
         </div>
       </FormRow>
       <FormRow>
-        <div class="col-4">
+        <div class="col-6">
           <DateTimePicker
             label="Choose Start Range"
             v-model="params.DateFrom"
             id="dp1"
           />
         </div>
-        <div class="col-4">
+        <div class="col-6">
           <DateTimePicker 
             label="Choose End Range" 
             v-model="params.DateTo"
             id="dp2"
           />
         </div>
-        <div class="col-4">
+        </FormRow>
+        <FormRow>
+        <div class="col-6">
           <NumberInput
-            label="Choose Start Range"
+            label="Choose Score"
             v-model="params.Score"
           />
+        </div>
+        <div class="col-6">
+          <TextInput
+            label="Cinema hall name"
+            v-model="params.CinemaHallName"
+          />
+          
         </div>
       </FormRow>
       <Button type="submit">Search</Button>

@@ -39,8 +39,7 @@ export default {
     }),
 
     handleFetching() {
-      if (getRoleFromToken() === 0) {
-        
+      if (getRoleFromToken() =='RegisteredUser') {
         this.fetchUsersTickets(getUserIdFromToken());
       }
       else {

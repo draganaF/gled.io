@@ -10,11 +10,6 @@
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav">
           <navbar-item>
-            <router-link to="/">
-              <icon name="Dashboard" icon="dashboard" />
-            </router-link>
-          </navbar-item>
-          <navbar-item>
             <dropdown-menu name="Account" icon="person">
               <div v-if="!role">
                 <dropdown-item :to="'/auth'">Login</dropdown-item>
@@ -22,7 +17,7 @@
                 <dropdown-item :to="'/patient-registration'">Register</dropdown-item>
               </div>
               <div v-else>
-                <dropdown-item to='/profile'>Profile</dropdown-item>
+                <dropdown-item @click="goToProfile">Profile</dropdown-item>
                 <dropdown-item @click="logOut">Log out</dropdown-item>
               </div>
             </dropdown-menu>
@@ -37,12 +32,11 @@
 import DropdownItem from '../DropdownMenu/DropdownItem.vue'
 import DropdownItemDivider from '../DropdownMenu/DropdownItemDivider.vue'
 import DropdownMenu from '../DropdownMenu/DropdownMenu.vue'
-import Icon from '../Icon/Icon.vue'
 import NavbarItem from './NavbarItem.vue'
-import { getRoleFromToken } from '../../utils/token'
+import { getRoleFromToken} from '../../utils/token'
 
 export default {
-  components: { DropdownMenu, DropdownItem, DropdownItemDivider, NavbarItem, Icon },
+  components: { DropdownMenu, DropdownItem, DropdownItemDivider, NavbarItem},
 
 
   data: function() {
@@ -59,6 +53,9 @@ export default {
     logOut() {
       this.$store.dispatch('authentication/logOut');
       this.$router.push('/auth');
+    },
+    goToProfile() {
+      this.$router.push('/users/profile')
     }
   },
 

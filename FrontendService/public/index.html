@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title>farmac.io</title>
+  <title>gled.io</title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -18,6 +18,7 @@
 </head>
 
 <body>
+  
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
@@ -47,7 +48,7 @@
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
 
   <script>
-    $('.datetimepicker').datetimepicker({
+    $ && $('.datetimepicker').datetimepicker({
       icons: {
           time: "fa fa-clock-o",
           date: "fa fa-calendar",
@@ -61,8 +62,12 @@
       }
     });
   </script>
-
+  
   <div id="app"></div>
+
+  <!-- draw.io diagrams -->
+  <script src="/js/drawio-renderer.js"></script>
+  <script src="/js/drawio-viewer.min.js"></script>  
 </body>
 
 </html>

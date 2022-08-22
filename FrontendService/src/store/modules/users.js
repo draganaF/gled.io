@@ -18,8 +18,7 @@ const actions = {
   searchUsers: (context, params) => {
     axios.post(`${USER_SERVICE_URL}/users/search`, params)
       .then(response => {
-        console.log(params)
-        console.log(response.data);
+        
         context.commit('setUsers', response.data);
       })
       .catch(error => {
@@ -34,7 +33,7 @@ const actions = {
   fetchUser: (context, userId) => {
     axios.get(`${USER_SERVICE_URL}/users/${userId}`)
       .then(response => {
-        console.log(response.data);
+       
         context.commit('setUser', response.data);
       })
       .catch(error => {
@@ -67,7 +66,7 @@ const actions = {
   createUser: (context, user) => {
     axios.post(`${USER_SERVICE_URL}/users`, user)
       .then(response => {
-        console.log(response);
+       
         context.commit('setUser', response.data);
         context.commit('setResult', {
           label: 'create',
@@ -87,7 +86,7 @@ const actions = {
   updateUser: (context, user) => {
     axios.put(`${USER_SERVICE_URL}/users/update`, user)
       .then(response => {
-        console.log(response);
+       
         context.commit('setUser', response.data);
         context.commit('setResult', {
           label: 'update',
@@ -106,7 +105,7 @@ const actions = {
   updateBalance: (context, balanceObject) => {
     axios.post(`${USER_SERVICE_URL}/users/update-balance`, balanceObject)
       .then(response => {
-        console.log(response);
+        
         context.commit('setResult', {
           label: 'balance',
           ok: true,
@@ -125,7 +124,7 @@ const actions = {
   updateUserPassword: (context, credentials) => {
     axios.put(`${USER_SERVICE_URL}/users/update/password`, credentials)
       .then(response => {
-        console.log(response);
+        
         context.commit('setUser', response.data);
         context.commit('setResult', {
           label: 'updatePassword',
@@ -145,7 +144,7 @@ const actions = {
   deleteUser: (context, userId) => {
     axios.delete(`${USER_SERVICE_URL}/users/delete-user/${userId}`)
       .then(response => {
-        console.log(response.data);
+      
         context.commit('setResult', {
           label: 'delete',
           ok: true,
@@ -164,7 +163,7 @@ const actions = {
   blockUser: (context, userId) => {
     axios.get(`${USER_SERVICE_URL}/users/block-user/${userId}`)
       .then(response => {
-        console.log(response.data);
+        
         context.commit('setResult', {
           label: 'block',
           ok: true,
@@ -182,7 +181,7 @@ const actions = {
   incrementWorkersSoldTickets: (context, userId) => {
     axios.get(`${USER_SERVICE_URL}/users/increment-sold-tickets/${userId}`)
       .then(response => {
-        console.log(response.data);
+       
         context.commit('setResult', {
           label: 'increment',
           ok: true,

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { TICKETS_SERVICE_URL } from "../../url";
 
 const state = {
   ticket: null,
@@ -14,7 +15,7 @@ const getters = {
 
 const actions = {
   fetchTickets: (context) => {
-    axios.get(`http://localhost:8000/api/tickets`)
+    axios.get(`${TICKETS_SERVICE_URL}/tickets`)
     .then(response => {
         context.commit('setTickets', response.data);
     })
@@ -23,7 +24,7 @@ const actions = {
     });
   },
   fetchUsersTickets: (context, id ) => {
-    axios.get(`http://localhost:8000/api/tickets/users/${id}`)
+    axios.get(`${TICKETS_SERVICE_URL}/tickets/users/${id}`)
     .then(response => {
         context.commit('setTickets', response.data);
     })
@@ -33,17 +34,27 @@ const actions = {
   },
 
   fetchTicketById: (context, id) => {
-    axios.get(`http://localhost:8000/api/tickets/${id}`)
+    axios.get(`${TICKETS_SERVICE_URL}/tickets/${id}`)
     .then(response => {
-        context.commit('setMovie', response.data);
+        context.commit('setTicket', response.data);
     })
     .catch(error => {
         context.commit('setResult', { label: 'fetch', ok: false });
     });
   },
 
+  fetchTicketsByProjectionId: (context, projectionId) => {
+    axios.get(`${TICKETS_SERVICE_URL}/tickets/projections/${projectionId}`)
+      .then(response => {
+        context.commit('setTickets', response.data);
+      })
+      .catch(error => {
+        context.commit('setResult', { label: 'fetch', ok: false });
+      })
+  },
+
   createTicket: (context, ticket) => {
-    axios.post(`http://localhost:8000/api/tickets`, ticket)
+    axios.post(`${TICKETS_SERVICE_URL}/tickets`, ticket)
     .then(response => {
         context.commit('setResult', {
           label : 'create',
@@ -52,7 +63,7 @@ const actions = {
         });
     })
     .catch(error => {
-      
+        console.log(error)
         context.commit('setResult', { 
           label: 'create',
           ok: false,
@@ -61,14 +72,15 @@ const actions = {
     });
   }, 
   buyTicket: (context, id) => {
-    axios.get(`http://localhost:8000/api/tickets/buy-reserved-ticket/${id}`)
+    axios.get(`${TICKETS_SERVICE_URL}/tickets/buy-reserved-ticket/${id}`)
     .then(response => {
         context.commit('setResult', {label: 'buy', ok: true, message: "You have succesfuly bought ticket"});
     })
     .catch(error => {
         context.commit('setResult', { label: 'buy', ok: false });
     });
-  }
+  },
+
 }
 
 

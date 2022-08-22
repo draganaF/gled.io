@@ -8,7 +8,7 @@
         @search="onSearchParamsChange($event)"
         :existingParams="searchParams"
       />
-      <div v-if="user.role === Roles.Worker" class="row move-button" >
+      <div v-if="user.role === 'Worker'" class="row move-button" >
         <Button @click="handleAddProjection">Add projection</Button>
       </div>
       <div v-for="(projection, index) in projections" :key="index">
@@ -43,6 +43,7 @@ const initialSearchParams = {
   DateTo: "",
   Score: 0,
   Year: 0,
+  CinemaHallName: ""
 };
 export default {
   components: {
@@ -82,7 +83,6 @@ export default {
 
     onSearchParamsChange(params) {
       this.searchParams = { ...this.searchParams, ...params };
-      console.log(this.searchParams)
       if (this.searchParams.DateFrom === "") {
         this.searchParams.DateFrom = "0001-01-01T00:00:00.000Z"
       }
@@ -90,6 +90,7 @@ export default {
       if(this.searchParams.DateTo === "") {
         this.searchParams.DateTo = "0001-01-01T00:00:00.000Z"
       }
+     
       this.handleSearch();
     },
     handleSearch() {

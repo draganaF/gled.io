@@ -32,5 +32,5 @@ def increment_users_reserved_tickets(user_id):
 
 def buy_tickets(user_id, price):
   url = "http://localhost:8083/api/users/buy-tickets/" + str(user_id)
-  response = requests.post(url, data={"Money": -price, "UserId": user_id})
+  response = requests.post(url, data={"Money": -1*price, "UserId": user_id})
   return response.status_code

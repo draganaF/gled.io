@@ -34,7 +34,7 @@ pub fn get_all_reports(token: Token) -> content::Json<String> {
 
   let mut report_s = report_service::ReportService::new();
 
-  return content::Json(Json(json!(report_s.get_all())).to_string());
+  return content::Json(Json(json!(report_s.get_all().unwrap())).to_string());
 }
 
 #[post("/create", data = "<report>")]

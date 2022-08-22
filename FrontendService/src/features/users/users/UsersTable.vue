@@ -20,9 +20,7 @@
             </ModalOpener>
 
             <ModalOpener modalBoxId="updateUserModal">
-              <DropdownItem @click="handleUpdateBalanceClick(u)"
-                >Balance
-              </DropdownItem>
+              <DropdownItem @click="handleUpdateBalanceClick(u)">Balance</DropdownItem>
             </ModalOpener>
 
           </DropdownMenu>

@@ -250,7 +250,6 @@ func (userService *UserService) ActivateUser(id uint) (*model.User, error) {
 
 func (userService *UserService) SendEmail(text string, subject string, emailAddress string) error {
 	client := &http.Client{}
-
 	url := os.Getenv("EMAIL_SERVICE_URL") + "/send"
 	email := model.Email{
 		To:      emailAddress,

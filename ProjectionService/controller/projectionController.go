@@ -25,7 +25,7 @@ var SearchProjections = http.HandlerFunc(func(w http.ResponseWriter, r *http.Req
 	projections, err := projectionService.Search(&p)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		utils.JSONResponse(w, 400, err.Error())
 		return
 	}
 	utils.JSONResponse(w, 200, projections)

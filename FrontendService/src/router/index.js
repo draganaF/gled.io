@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '../features/auth/LoginPage.vue'
 import store from '../store/index'
 import * as tokenUtils from '../utils/token'
 
@@ -29,7 +28,7 @@ const routes = [
   {
     path: '/projections/add-new-projection',
     name: 'CreateProjection',
-    component: () => import('@/features/projection/manageProjections/ProjectionForm.vue'),
+    component: () => import('@/features/projection/manage-projections/ProjectionForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }
@@ -41,11 +40,27 @@ const routes = [
     meta: {
       layout: 'AppLayoutMain'
     }
-  }, 
+  },
+  {
+    path: '/movies/:id/recensions',
+    name: 'Movie Recensions',
+    component: () => import('@/features/recensions/recensions-list/Recensions.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
+  {
+    path: '/recensions/reports',
+    name: 'Recension Reports',
+    component: () => import('@/features/recensions/reports/Reports.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
   {
     path: '/movies/add-new-movie',
     name: 'CreateMovie',
-    component: () => import('@/features/movies/manageMovies/MovieForm.vue'),
+    component: () => import('@/features/movies/manage-movies/MovieForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }
@@ -53,7 +68,7 @@ const routes = [
   {
     path: '/movies/update/:id',
     name: 'UpdateMovie',
-    component: () => import('@/features/movies/manageMovies/MovieForm.vue'),
+    component: () => import('@/features/movies/manage-movies/MovieForm.vue'),
     meta: {
       layout:'AppLayoutMain'
     }
@@ -113,7 +128,16 @@ const routes = [
     meta: {
       layout: 'AppLayoutMain'
     }
-  }
+  },
+
+  {
+    path: '/projections/tickets/:id',
+    name: 'Hall Diagram',
+    component: () => import('@/features/tickets/tickets-reservation/TicketsReservation.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  },
 
 ]
     
@@ -145,7 +169,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
   setTimeout(() => {
-    $('.selectpicker').selectpicker('refresh');
+    $ && $('.selectpicker').selectpicker('refresh');
   }, 100);
 });
 

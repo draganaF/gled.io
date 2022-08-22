@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PROJECTION_SERVICE_URL } from "../../url";
 
 const state = {
   projection: null,
@@ -14,9 +15,8 @@ const getters = {
 
 const actions = {
   fetchProjections: (context) => {
-    axios.get(`http://localhost:8082/api/projections`)
+    axios.get(`${PROJECTION_SERVICE_URL}/projections`)
     .then(response => {
-        console.log(response)
         context.commit('setProjections', response.data);
     })
     .catch(error => {
@@ -25,7 +25,7 @@ const actions = {
   },
 
   fetchProjectionById: (context, id) => {
-    axios.get(`http://localhost:8082/api/projections/${id}`)
+    axios.get(`${PROJECTION_SERVICE_URL}/projections/${id}`)
     .then(response => {
         context.commit('setProjection', response.data);
     })
@@ -35,7 +35,7 @@ const actions = {
   },
 
   searchProjections: (context, searchParams) => {
-    axios.post(`http://localhost:8082/api/projections/search`, searchParams)
+    axios.post(`${PROJECTION_SERVICE_URL}/projections/search`, searchParams)
     .then(response => {
       context.commit('setProjections', response.data);
     })
@@ -48,7 +48,7 @@ const actions = {
     });
   },
   createProjection: (context, projection) => {
-    axios.post(`http://localhost:8082/api/projections`, projection)
+    axios.post(`${PROJECTION_SERVICE_URL}/projections`, projection)
     .then(response => {
       context.commit('setResult', { 
         label: 'create',
@@ -65,7 +65,7 @@ const actions = {
     });
   },
   deleteProjection: (context, id) => {
-    axios.delete(`http://localhost:8082/api/projections/` + id)
+    axios.delete(`${PROJECTION_SERVICE_URL}/projections/` + id)
     .then(response => {
       context.commit('setResult', { 
         label: 'delete',

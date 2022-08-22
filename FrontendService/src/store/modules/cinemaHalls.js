@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { PROJECTION_SERVICE_URL } from "../../url";
 const state = {
   hall: null,
   halls: null,
@@ -14,7 +14,7 @@ const getters = {
 
 const actions = {
   fetchHalls: (context) => {
-    axios.get(`http://localhost:8082/api/cinema-halls`)
+    axios.get(`${PROJECTION_SERVICE_URL}/cinema-halls`)
     .then(response => {
         console.log(response)
         context.commit('setHalls', response.data);
@@ -25,7 +25,7 @@ const actions = {
   },
 
   fetchHallById: (context, id) => {
-    axios.get(`http://localhost:8082/api/cinema-halls/${id}`)
+    axios.get(`${PROJECTION_SERVICE_URL}/cinema-halls/${id}`)
     .then(response => {
         context.commit('setHall', response.data);
     })

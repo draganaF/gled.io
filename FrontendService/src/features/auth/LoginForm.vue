@@ -24,7 +24,7 @@
 
         <div class="row mt-4">
             <p class="text-left col-6">
-                <router-link to="/patient-registration">Registration</router-link>
+                <router-link to="/users/registration">Registration</router-link>
             </p>
         </div>
     </Form>

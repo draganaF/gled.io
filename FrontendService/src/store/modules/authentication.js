@@ -1,4 +1,5 @@
 import axios from "axios";
+import { USER_SERVICE_URL } from "../../url";
 import {setToken, removeToken} from '../../utils/token'
 
 const state = {
@@ -11,7 +12,7 @@ const getters = {
 
 const actions = {
     authenticate: (context, credentials) => {
-        axios.post('http://localhost:8083/api/auth', credentials)
+        axios.post(`${USER_SERVICE_URL}/auth`, credentials)
         .then(response => {
             setToken(response.data);
             

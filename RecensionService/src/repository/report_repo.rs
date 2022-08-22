@@ -97,7 +97,7 @@ impl ReportRepo {
 
   pub fn delete_report(&mut self, id: i32) {
     self.client.execute(
-      "UPDATE report SET deleted=true WHERE id = $1",
+      "UPDATE reports SET deleted=true WHERE id = $1",
       &[&id],).unwrap();
   }
 }

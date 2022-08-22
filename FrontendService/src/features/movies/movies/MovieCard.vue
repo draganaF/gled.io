@@ -15,7 +15,7 @@
       <h4><b>Genre:</b>{{getGenre()}}</h4>    
     </div>
     <div class="card-footer">
-      <Button @click="updateMovie" v-if="user.role === Roles.Worker" class="pull-left">Update</Button>
+      <Button @click="updateMovie" v-if="user.role === 'Worker'" class="pull-left">Update</Button>
     </div>
   </div>
 </template>

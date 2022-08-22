@@ -65,9 +65,12 @@ func (projectionService *ProjectionService) RemoteCall(movieId int) int {
 	res, _ := client.Do(req)
 	defer res.Body.Close()
 
-	bodyBytes, _ := io.ReadAll(res.Body)
-
-	score, _ := strconv.Atoi(string(string(bodyBytes)[15]))
+	bodyBytes, err := io.ReadAll(res.Body)
+	if err != nil {
+		return 0
+	}
+	println(strconv.Atoi(string(string(bodyBytes)[9])))
+	score, _ := strconv.Atoi(string(string(bodyBytes)[9]))
 	return score
 }
 
@@ -148,6 +151,10 @@ func (projectionService *ProjectionService) Create(projectionDto apicontract.Cre
 
 func (projectionService *ProjectionService) DeleteUnboughtTickets() *[]model.Projection {
 	projections := projectionService.repository.ReadProjectionsThatStartInHalfAnHoure()
+
+	if projections == nil {
+		return nil
+	}
 
 	client := http.Client{}
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { PROJECTION_SERVICE_URL } from "../../url";
 const state = {
   movie: null,
   movies: null,
@@ -14,9 +14,8 @@ const getters = {
 
 const actions = {
   fetchMovies: (context) => {
-    axios.get(`http://localhost:8082/api/movies`)
+    axios.get(`${PROJECTION_SERVICE_URL}/movies`)
     .then(response => {
-        console.log(response)
         context.commit('setMovies', response.data);
     })
     .catch(error => {
@@ -25,7 +24,7 @@ const actions = {
   },
 
   fetchMovieById: (context, id) => {
-    axios.get(`http://localhost:8082/api/movies/${id}`)
+    axios.get(`${PROJECTION_SERVICE_URL}/movies/${id}`)
     .then(response => {
         context.commit('setMovie', response.data);
     })
@@ -35,7 +34,7 @@ const actions = {
   },
 
   createMovie: (context, movie) => {
-    axios.post(`http://localhost:8082/api/movies`, movie)
+    axios.post(`${PROJECTION_SERVICE_URL}/movies`, movie)
     .then(response => {
         context.commit('setResult', {
           label : 'create',
@@ -54,7 +53,7 @@ const actions = {
   }, 
 
   updateMovie: (context, movie) => {
-    axios.put(`http://localhost:8082/api/movies`, movie)
+    axios.put(`${PROJECTION_SERVICE_URL}/movies`, movie)
     .then(response => {
         context.commit('setResult', {
           label : 'update',
