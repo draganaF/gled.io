@@ -19,7 +19,7 @@ def get_tickets_by_seat(db: Session, seat: str, projection_id: int):
   return db.query(models.Ticket).filter(models.Ticket.seat == seat, models.Ticket.is_deleted == False, models.Ticket.projection_id == projection_id).first()
 
 def get_reserved_but_not_bought_tickets(db: Session):
-  return db.query(models.Ticket).filter(models.Ticket.is_bought == False, models.Ticket.is_reserved == True)
+  return db.query(models.Ticket).filter(models.Ticket.is_bought == False, models.Ticket.is_reserved == True, models.Ticket.is_deleted == False)
 
 def create_ticket(db: Session, ticket: schema.CreateTicket):
   ticket_db = models.Ticket(**ticket.dict())
@@ -35,7 +35,7 @@ def find_reserved_tickets_users(db: Session, projection_id: int):
 
 def delete_unbought_reserved_tickets_for_projection(db: Session, projection_id: int):
   tickets = db.query(models.Ticket).filter(
-    models.Ticket.is_bought == False, models.Ticket.is_reserved == True, models.Ticket.projection_id == projection_id).all()
+    models.Ticket.is_bought == False, models.Ticket.is_reserved == True, models.Ticket.projection_id == projection_id, models.Ticket.is_deleted == False).all()
 
   for ticket in tickets:
     ticket.is_deleted = True

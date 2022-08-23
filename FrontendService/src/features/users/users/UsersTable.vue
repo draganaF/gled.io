@@ -19,7 +19,7 @@
               <DropdownItem @click="handleBlockUserClick(u)">Block</DropdownItem>
             </ModalOpener>
 
-            <ModalOpener modalBoxId="updateUserModal">
+            <ModalOpener modalBoxId="updateUserModal" v-if="!u.Blocked">
               <DropdownItem @click="handleUpdateBalanceClick(u)">Balance</DropdownItem>
             </ModalOpener>
 

@@ -31,7 +31,7 @@ func HandleRequests() {
 	router.Handle("/api/cinema-halls/{id}", controller.GetCinemaHallById).Methods("GET")
 
 	c := cron.New()
-	c.AddFunc("@every 30m", chron.DeleteUnbougthReservedTickets)
+	c.AddFunc("@every 1m", chron.DeleteUnbougthReservedTickets)
 	c.Start()
 
 	corsOpts := cors.New(cors.Options{

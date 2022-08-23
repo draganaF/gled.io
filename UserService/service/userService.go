@@ -132,8 +132,9 @@ func (userService *UserService) IncrementNegativePoints(id uint) (*model.User, e
 
 	existingUser.NegativePoints += 1
 
-	if existingUser.NegativePoints == 3 {
-		userService.BlockUser(existingUser.Id)
+	if existingUser.NegativePoints >= 3 {
+		print("E COVJECE STO NE UDJES")
+		existingUser.Blocked = true
 	}
 
 	user := userService.repository.Update(existingUser)
@@ -142,6 +143,9 @@ func (userService *UserService) IncrementNegativePoints(id uint) (*model.User, e
 		return nil, errors.New("Something went wrong")
 	}
 
+	if user.Blocked {
+		userService.SendEmail("You have been blocked", "Blocked user", user.Email)
+	}
 	return user, nil
 
 }
@@ -208,7 +212,6 @@ func (userService *UserService) AddMoney(userId uint, amount float32) (*model.Us
 	}
 
 	newAmount := user.Total + amount
-	println(newAmount)
 	user.Total = newAmount
 	if user.Total <= 0 {
 		return nil, errors.New("there is not enough amount of money in account")
