@@ -74,11 +74,10 @@ def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = D
     raise HTTPException(status_code=401, detail="You are unauthorized")
   if status_code == 403:
     raise HTTPException(status_code=403, detail="You dont have permission")
-  print("Tu sam jeebs")
   db_ticket = repo.get_tickets_by_seat(db, seat=ticket.seat, projection_id=ticket.projection_id)
   if db_ticket:
     raise HTTPException(status_code=400, detail="Seat is taken")
-
+  print("U price ssam2")
   if ticket.is_reserved == True:
     remote_calls.increment_users_reserved_tickets(ticket.user_id)
   else:
@@ -87,6 +86,7 @@ def create_ticket(request: Request, ticket: schema.CreateTicket, db: Session = D
         print("U price ssam")
         remote_calls.increment_users_bougth_tickets(ticket.user_id)
       else:
+        print("U price ssam1")
         raise HTTPException(status_code=400, detail="Not enough resource on your ballans")
 
   saved_ticket = repo.create_ticket(db=db, ticket=ticket)

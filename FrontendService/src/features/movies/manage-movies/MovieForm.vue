@@ -10,13 +10,17 @@
                   <TextInput 
                   label="Movie Name" 
                   v-model="movie.Name" 
-                  :isValid="validateText(movie.Name)" />
+                  :isValid="validateAlphanumericalWord(movie.Name)"
+                  :showErrorMessage="showErrorMessage"
+                  errorMessage="Valid score must be provided." />
                 </div>
                 <div class="col-6">
                   <TextInput 
                   label="Director" 
                   v-model="movie.Director"
-                  :isValid="validateText(movie.Director)" />
+                  :isValid="validateText(movie.Director)" 
+                  :showErrorMessage="showErrorMessage"
+                  errorMessage="Valid score must be provided."/>
                 </div>
               </FormRow>
               <FormRow>
@@ -24,7 +28,9 @@
                   <TextInput 
                   label="Plot" 
                   v-model="movie.Plot"
-                  :isValid="validateText(movie.Plot)" />
+                  :isValid="validateAlphanumericalWord(movie.Plot)"
+                  :showErrorMessage="showErrorMessage"
+                  errorMessage="Valid score must be provided." />
                 </div>
               </FormRow>
               <FormRow>
@@ -32,7 +38,10 @@
                   <TextInput 
                   label="Actors" 
                   v-model="movie.Actors"
-                  :isValid="validateText(movie.Actors)" />
+                  :isValid="validateAlphanumericalWord(movie.Actors)" 
+                  :showErrorMessage="showErrorMessage"
+                  errorMessage="Valid score must be provided."/>
+
                 </div>
               </FormRow>
               <FormRow>
@@ -52,10 +61,16 @@
 
               <FormRow>
                 <div class="col-6">
-                  <NumberInput label="Duration" v-model="movie.Duration" />
+                  <NumberInput 
+                  label="Duration" 
+                  v-model="movie.Duration" 
+                  :isValid="movie.Duration >=0"/>
                 </div>
                 <div class="col-6">
-                  <NumberInput label="Year" v-model="movie.Year" />
+                  <NumberInput 
+                  label="Year" 
+                  v-model="movie.Year"
+                  :isValid="movie.Year >=0 && movie.Year <=2023" />
                 </div>
               </FormRow>
               <FormRow>
@@ -72,7 +87,7 @@
                   :isValid="validateText(movie.Language)" />
                 </div>
               </FormRow>
-              <Button type="submit">{{ isEdit ? 'Update' : 'Create' }}</Button>
+              <Button @click="showErrorMessage = true" type="submit">{{ isEdit ? 'Update' : 'Create' }}</Button>
             </Form>
           </Card>
         </div>
@@ -87,7 +102,7 @@ import FormRow from "../../../components/Form/FormRow.vue";
 import Button from "../../../components/Form/Button.vue";
 import toastr from "toastr";
 import { mapActions, mapGetters } from "vuex";
-import { validateText } from '../../../utils/validation';
+import { validateText, validateAlphanumericalWord } from '../../../utils/validation';
 
 import Card from "../../../components/Card/Card.vue";
 import TextInput from "../../../components/Form/TextInput.vue";
@@ -140,6 +155,7 @@ export default {
       isEdit: false,
       movie: { ...initialMovie },
       genres: genres,
+      showErrorMessage: false,
     };
   },
 
@@ -177,14 +193,13 @@ export default {
       fetchMovie: "movies/fetchMovieById"
     }),
     validateText,
-
+    validateAlphanumericalWord,
     setEdit() {
       
       if (!this.isEdit) {
         this.movie = { ...initialMovie };
         return;
       }
-      console.log(this.existingMovie)
       if (this.existingMovie) {
         this.movie = this.existingMovie;
       }
@@ -214,6 +229,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
+
       this.isEdit = true
       this.fetchMovie(this.$route.params.id)
       

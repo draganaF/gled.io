@@ -27,12 +27,17 @@
               </FormRow>
               <FormRow>
                 <div class="col-8">
-                  <DateTimePicker label="Choose Date" v-model="Slot" />
+                  <DateTimePicker 
+                  label="Choose Date" 
+                  v-model="Slot" />
                 </div>
               </FormRow>
               <FormRow>
                 <div class="col-8">
-                  <NumberInput label="Input price" v-model="Price" />
+                  <NumberInput 
+                  label="Input price" 
+                  v-model="Price" 
+                  :isValid="Price >= 60 && Price <=1000"/>
                 </div>
               </FormRow>
               <Button @click="handleCreate">Create</Button>

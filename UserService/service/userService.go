@@ -208,6 +208,7 @@ func (userService *UserService) AddMoney(userId uint, amount float32) (*model.Us
 	}
 
 	newAmount := user.Total + amount
+	println(newAmount)
 	user.Total = newAmount
 	if user.Total <= 0 {
 		return nil, errors.New("there is not enough amount of money in account")

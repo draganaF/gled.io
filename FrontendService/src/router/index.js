@@ -18,6 +18,14 @@ const routes = [
     }
   },
   {
+    path: '/',
+    name: 'Projections',
+    component: () => import('@/features/projection/projections/Projections.vue'),
+    meta: {
+      layout: 'AppLayoutMain'
+    }
+  }, 
+  {
     path: '/projections',
     name: 'Projections',
     component: () => import('@/features/projection/projections/Projections.vue'),
@@ -54,7 +62,8 @@ const routes = [
     name: 'Recension Reports',
     component: () => import('@/features/recensions/reports/Reports.vue'),
     meta: {
-      layout: 'AppLayoutMain'
+      layout: 'AppLayoutMain',
+      authorizedRoles: ["Administrator"]
     }
   },
   {

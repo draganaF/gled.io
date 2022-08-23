@@ -17,6 +17,6 @@ export function validateText(text) {
 }
 
 export function validateAlphanumericalWord(word) {
-  const re = /^[a-zA-Z0-9]+$/;
+  const re = /^[A-Za-z0-9@$!%*#?&,.-:\s]+$/;
   return !!(word) && re.test(String(word));
 } 

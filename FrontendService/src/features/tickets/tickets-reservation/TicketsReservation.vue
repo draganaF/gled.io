@@ -99,6 +99,7 @@ export default {
           projection_id: this.projectionId,
           price: this.projection.Price,
         };
+        console.log(ticket)
         this.createTicket(ticket);
       }
     },
